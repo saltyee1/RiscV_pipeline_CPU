@@ -1,22 +1,22 @@
-`include "define.v"
-`include "ALU.v"
-`include "Controller.v"
-`include "Decoder.v"
-`include "Imme_Ext.v"
-`include "JB_Unit.v"
-`include "LD_Filter.v"
-`include "Mux.v"
-`include "Mux4_1.v"
-`include "Reg_PC.v"
-`include "RegFile.v"
-`include "SRAM.v"
-`include "F_D_Reg.v"
-`include "D_E_Reg.v"
-`include "E_M_Reg.v"
-`include "M_W_Reg.v"
-`include "Hazard_Detection.v"
-`include "Forwarding_Unit.v"
-`include "Branch_Taken_Unit.v"
+// `include "define.v"
+// `include "ALU.v"
+// `include "Controller.v"
+// `include "Decoder.v"
+// `include "Imme_Ext.v"
+// `include "JB_Unit.v"
+// `include "LD_Filter.v"
+// `include "Mux.v"
+// `include "Mux4_1.v"
+// `include "Reg_PC.v"
+// `include "RegFile.v"
+// `include "SRAM.v"
+// `include "F_D_Reg.v"
+// `include "D_E_Reg.v"
+// `include "E_M_Reg.v"
+// `include "M_W_Reg.v"
+// `include "Hazard_Detection.v"
+// `include "Forwarding_Unit.v"
+// `include "Branch_Taken_Unit.v"
 module Top (
     input clk,
     input rst,
@@ -40,7 +40,7 @@ wire [31:0] current_pc, next_pc;
 
 wire [3:0]  im_w_en, dm_w_en;
 wire        wb_en;
-wire [31:0] dm_read_data;
+wire [31:0] dm_out;
 wire [31:0] rs1_data_out, rs2_data_out;
 wire [31:0] wb_data;
 
@@ -96,7 +96,7 @@ Reg_PC PC(
 SRAM im(
     .clk (clk),
     .w_en (4'b0),
-    .address (current_pc),
+    .address (current_pc[15:0]),
     .write_data (32'b0),
     .read_data (inst)
 );
