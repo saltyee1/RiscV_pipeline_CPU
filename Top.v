@@ -65,6 +65,9 @@ wire func7_reg_d_e;
 wire [31:0] jb_addr_reg_e_m;
 wire branch_taken_reg_e_m;
 
+//WB state
+wire [31:0]dm_out_reg_m_w;
+
 wire [31:0] pc_reg_f_d, pc_reg_d_e, pc_reg_e_m;
 wire [4:0] rd_index_reg_d_e, rd_index_reg_e_m, rd_index_reg_m_w;
 wire ecall_sig_reg_d_e, ecall_sig_reg_e_m, ecall_sig_reg_m_w;
@@ -280,44 +283,79 @@ E_M_Reg e_m_reg (
 	func3_reg (func3_reg_e_m)
 );
 
-LD_Filter ld_filter(
-    .func3 (func3),
-    .ld_data (dm_read_data),
-    .ld_data_f (ld_data_f)
-);
+wire [31:0]pc_add4 = current_pc + 32'd4;
 
-
-
-
-
-SRAM dm(
-    .clk (clk),
-    .w_en (dm_w_en),
-    .address (alu_out),
-    .write_data (rs2_data_out),
-    .read_data (dm_read_data)
-);
-wire [31:0]n_pc = current_pc + 32'd4;
 Mux m1(
-    .true_choice(JB_out),
-    .false_choice(n_pc),
-    .sel(next_pc_sel),
+    .true_choice(jb_addr_reg_e_m),
+    .false_choice(pc_add4),
+    .sel(branch_taken_reg_e_m),
     .result(next_pc)
 );  //choose next pc
 
-Mux m4(
-    .true_choice(rs1_data_out),
-    .false_choice(current_pc),
-    .sel(jb_src1_sel),
-    .result(JB_src1)
-);  //choose JB_src1
+SRAM dm(
+    .clk (clk),
+    .w_en (dm_w_en_reg_e_m),
+    .address (alu_out_reg_e_m),
+    .write_data (rs2_data_reg_e_m),
+    .read_data (dm_out)
+);
+
+M_W_Reg m_w_reg(
+	clk (clk),
+	rst (rst),
+	dm_out (dm_out),
+	alu_out (alu_out_reg_e_m),
+	rd_index (rd_index_reg_e_m),
+	/*control signal*/
+	ecall_sig (ecall_sig_reg_e_m),
+	wb_sel (wb_sel_reg_e_m),
+	wb_en (wb_sel_reg_e_m),
+	func3 (func3_reg_e_m),
+
+	dm_out_reg (dm_out_reg_m_w),
+	alu_out_reg (alu_out_reg_m_w),
+	rd_index_reg (rd_index_reg_m_w),
+	/*control signal*/
+	ecall_sig_reg (ecall_sig_reg_m_w),
+	wb_sel_reg (wb_sel_reg_m_w),
+	wb_en_reg (wb_en_reg_m_w),
+	func3_reg (func3_reg_m_w)
+);
+
+LD_Filter ld_filter(
+    .func3 (func3_reg_m_w),
+    .ld_data (dm_out_reg_m_w),
+    .ld_data_f (ld_data_f)
+);
 
 Mux m5(
     .true_choice(ld_data_f),
-    .false_choice(alu_out),
-    .sel(wb_sel),
+    .false_choice(alu_out_reg_m_w),
+    .sel(wb_sel_reg_m_w),
     .result(wb_data)
 );  //choose wb_data
+
+Hazard_Detection HD(
+	F_D_rs1_index (rs1_index),
+	F_D_rs2_index (rs2_index),
+	D_E_dm_w_en (dm_w_en_reg_d_e),
+	D_E_rd_index (rd_index_reg_d_e),
+	E_M_branch_taken (branch_taken_reg_e_m),
+	F_D_flush (f_d_flush),
+	D_E_flush (d_e_flush),
+	E_M_flush (e_m_flush),
+	PC_stall (pc_stall),
+	F_D_stall (f_d_stall)
+);
+
+Forwarding_Unit FU(
+	D_E_rs1_index (rs1_index_reg_d_e),
+	D_E_rs2_index (rs2_index_reg_d_e),
+    E_M_rd_index (rd_index_reg_e_m),
+	M_W_rd_index (rd_index_reg_m_w),
+	rs1_sel (rs1_sel),
+	rs2_sel (rs2_sel)
+);
 
 
 endmodule
