@@ -9,19 +9,23 @@ input [4:0] rs1_index,
 input [4:0] rs2_index,
 output [31:0] rs1_data_out,
 output [31:0] rs2_data_out,
-output logic halt
+output halt
 );
-logic [31:0] regFile [0:31];
-import "DPI-C" function void ecall(input logic [31:0] reg_a0, input logic [31:0] reg_a1, inout logic halt);
+reg [31:0] regFile [0:31];
+//import "DPI-C" function void ecall(input logic [31:0] reg_a0, input logic [31:0] reg_a1, inout logic halt);
 // always @(*) begin
 //     if(ecall_sig)
 //         halt = (regFile[10] == 32'b0 ) ? 1'b1 : 1'b0;
 //     else
 //         halt =  1'b0;
 // end 
-
+wire print_falg = ((regFile[10] == 32'd0) &&(regFile[11] == 32'd1));
+wire stop_flag = ((regFile[10] == 32'd0) &&(regFile[11] == 32'd0));
 always@(*) begin
-     if(ecall_sig) ecall(regFile[10], regFile[11], halt);
+     if(ecall_sig) 
+        halt = (stop_flag) ? 1'b1 : 1'b0;
+    else
+        halt = 1'b0;
 end
 
 integer i;

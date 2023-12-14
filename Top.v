@@ -10,9 +10,9 @@
 `include "RegFile.sv"
 `include "SRAM.sv"*/
 module Top (
-    input logic clk,
-    input logic rst,
-    output logic halt
+    input clk,
+    input rst,
+    output halt
 );
 wire [4:0]  opcode;
 wire [2:0]  func3;
