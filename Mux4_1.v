@@ -4,8 +4,8 @@ module Mux4_1(
     input [31:0] in2,
     input [31:0] in3,
     input [1:0] sel,
-    output [31:0] result
-)
+    output reg [31:0] result
+);
 
 always @(*) begin
     case (sel)

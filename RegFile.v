@@ -9,7 +9,7 @@ input [4:0] rs1_index,
 input [4:0] rs2_index,
 output [31:0] rs1_data_out,
 output [31:0] rs2_data_out,
-output halt
+output reg halt
 );
 reg [31:0] regFile [0:31];
 //import "DPI-C" function void ecall(input logic [31:0] reg_a0, input logic [31:0] reg_a1, inout logic halt);

@@ -5,7 +5,7 @@ input [15:0] address,
 input [31:0] write_data,
 output [31:0] read_data
 );
-logic [7:0] mem [0:65535];
+reg [7:0] mem [0:65535];
 //reg [7:0] mem [0:16384];
 //Write
 always@(negedge clk) begin
