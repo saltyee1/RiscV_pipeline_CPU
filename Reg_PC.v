@@ -1,11 +1,11 @@
 module Reg_PC (
 input clk,
-input reset,
+input rst,
 input stall,
 input [31:0] next_pc,
 output reg [31:0] current_pc
 );
-always @(negedge clk or negedge reset) begin
+always @(negedge clk or negedge rst) begin
     if(!reset)
         current_pc <= 32'd0;
     else if (stall)
