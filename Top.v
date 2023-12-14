@@ -1,14 +1,21 @@
-/*`include "define.sv"
-`include "ALU.sv"
-`include "Controller.sv"
-`include "Decoder.sv"
-`include "Imme_Ext.sv"
-`include "JB_Unit.sv"
-`include "LD_Filter.sv"
-`include "Mux.sv"
-`include "Reg_PC.sv"
-`include "RegFile.sv"
-`include "SRAM.sv"*/
+`include "define.v"
+`include "ALU.v"
+`include "Controller.v"
+`include "Decoder.v"
+`include "Imme_Ext.v"
+`include "JB_Unit.v"
+`include "LD_Filter.v"
+`include "Mux.v"
+`include "Reg_PC.v"
+`include "RegFile.v"
+`include "SRAM.v"
+`include "F_D_Reg.v"
+`include "D_EReg.v"
+`include "E_M_Reg.v"
+`include "M_W_Reg.v"
+`include "Hazard_Detection.v"
+`include "Forwarding_Unit.v"
+`include "Branch_Taken_Unit.v"
 module Top (
     input clk,
     input rst,
@@ -153,7 +160,7 @@ Controller contr(
 D_E_Reg d_e_reg(
 	clk (clk),
 	rst (rst),
-    flush (d_e_flush)
+    flush (d_e_flush),
 	rs1_index (rs1_index),
 	rs2_index (rs2_index),
 	rd_index (rd_index),
@@ -199,7 +206,7 @@ Mux4_1 rs1_f(
     .in2 (alu_out_reg_m_w),
     .in3 (rs1_data_reg_d_e),
     .sel (rs1_forward_sel),
-    .result (rs1_data_f),
+    .result (rs1_data_f)
 ); //choose rs1_data forward or not
 
 Mux m2(
@@ -215,7 +222,7 @@ Mux4_1 rs2_f(
     .in2 (alu_out_reg_m_w),
     .in3 (rs2_data_reg_d_e),
     .sel (rs2_forward_sel),
-    .result (rs2_data_f),
+    .result (rs2_data_f)
 ); //choose rs1_data forward or not
 
 Mux m3(

@@ -16,7 +16,7 @@ module M_W_Reg (
 	output reg ecall_sig_reg,
 	output reg wb_sel_reg,
 	output reg wb_en_reg,
-	output reg [2:0]func3_reg,
+	output reg [2:0]func3_reg
 );
 always @(negedge clk or negedge rst) begin
 	if(!rst) begin

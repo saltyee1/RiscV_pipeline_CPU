@@ -1,4 +1,4 @@
-//`include "define.sv"
+//`include "define.v"
 module ALU(
     input [4:0]     opcode,
     input [2:0]     func3,

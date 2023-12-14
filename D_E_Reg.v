@@ -38,7 +38,7 @@ module D_E_Reg (
 	output reg [3:0] dm_w_en_reg,
 	output reg ecall_sig_reg,
 	output reg wb_sel_reg,
-	output reg wb_en_reg,			
+	output reg wb_en_reg			
 );
 
 always@(posedge clk or negedge rst) begin

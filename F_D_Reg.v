@@ -20,7 +20,7 @@ always@(posedge clk or negedge rst) begin
 	end
 	else if (stall) begin
 		inst_reg <= inst_reg;
-		pc_reg <== pc_reg;
+		pc_reg <= pc_reg;
 	end
 	else begin
 		inst_reg <= inst;
