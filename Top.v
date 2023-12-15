@@ -347,7 +347,7 @@ Mux m5(
 Hazard_Detection HD(
 	.F_D_rs1_index (rs1_index),
 	.F_D_rs2_index (rs2_index),
-	.D_E_dm_w_en (dm_w_en_reg_d_e),
+	.D_E_wb_en (wb_en_reg_d_e),
 	.D_E_rd_index (rd_index_reg_d_e),
 	.E_M_branch_taken (branch_taken_reg_e_m),
 	.F_D_flush (f_d_flush),
