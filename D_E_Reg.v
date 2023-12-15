@@ -41,7 +41,7 @@ module D_E_Reg (
 	output reg wb_en_reg			
 );
 
-always@(posedge clk or negedge rst) begin
+always@(negedge clk or negedge rst) begin
 	if(!rst) begin
 		rs1_index_reg <= 5'b0;
 		rs2_index_reg <= 5'b0;
@@ -69,7 +69,7 @@ always@(posedge clk or negedge rst) begin
 		rs1_data_reg <= rs1_data;
 		rs2_data_reg <= rs2_data;
 		imm_out_reg <= imm_out;
-		pc_reg <= pc_reg;
+		pc_reg <= pc;
 	/*control signal*/
 		if(flush) begin
 			alu_src1_sel_reg <= 1'b0;

@@ -50,7 +50,7 @@ endgenerate
 
 always@(*) begin
      if(ecall_sig) begin
-		print_flag = (print_en) ? 1'b1 : 1'b0;
+		print_flag = (print_en) 1'b1 : 1'b0;
         halt = (stop_flag) ? 1'b1 : 1'b0;
 	end
     else begin

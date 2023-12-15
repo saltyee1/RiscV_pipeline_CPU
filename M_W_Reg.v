@@ -33,8 +33,8 @@ always @(negedge clk or negedge rst) begin
 		alu_out_reg <= alu_out;
 		rd_index_reg <= rd_index;
 		ecall_sig_reg <= ecall_sig;
-		wb_sel_reg <= wb_en;
-		wb_en_reg <= wb_sel;
+		wb_sel_reg <= wb_sel;
+		wb_en_reg <= wb_en;
 		func3_reg <= func3;
 	end
 end

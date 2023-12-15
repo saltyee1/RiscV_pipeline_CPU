@@ -26,7 +26,7 @@ module E_M_Reg (
 	output reg[2:0] func3_reg
 );
 
-always@(posedge clk or negedge rst) begin
+always@(negedge clk or negedge rst) begin
 	if(!rst) begin
 		alu_out_reg <= 32'b0;
 		rs2_data_reg <= 32'b0;

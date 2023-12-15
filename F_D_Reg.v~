@@ -2,10 +2,11 @@ module F_D_Reg (
 	input clk,
 	input rst,
 	input stall,			//update or not
+	input flush,
 	input [31:0] inst,
 	input [31:0] pc,
-	output [31:0] inst_reg,
-	output [31:0] pc_reg 
+	output reg[31:0] inst_reg,
+	output reg[31:0] pc_reg 
 );
 
 always@(posedge clk or negedge rst) begin
@@ -13,9 +14,13 @@ always@(posedge clk or negedge rst) begin
 		inst_reg <= 32'b0;
 		pc_reg <= 32'b0;
 	end
+	else if (flush) begin
+		inst_reg <= 32'b0;
+		pc_reg <= 32'b0;
+	end
 	else if (stall) begin
 		inst_reg <= inst_reg;
-		pc_reg <== pc_reg;
+		pc_reg <= pc_reg;
 	end
 	else begin
 		inst_reg <= inst;

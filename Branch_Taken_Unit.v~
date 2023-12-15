@@ -1,4 +1,4 @@
-//`include "define.v"
+`include "define.v"
 module Branch_Taken_Unit (
     input [4:0] opcode,
     input alu_out0,

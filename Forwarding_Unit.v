@@ -3,8 +3,8 @@ module Forwarding_Unit(
 	input [4:0] D_E_rs2_index,
 	input [4:0] E_M_rd_index,
 	input [4:0] M_W_rd_index,
-	output reg rs1_sel,
-	output reg rs2_sel
+	output reg [1:0]rs1_sel,
+	output reg [1:0]rs2_sel
 );
 parameter not_forward = 2'd0;
 parameter forward_M = 2'd1;

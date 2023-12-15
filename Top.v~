@@ -304,7 +304,7 @@ Mux m1(
 SRAM dm(
     .clk (clk),
     .w_en (dm_w_en_reg_e_m),
-    .address (alu_out_reg_e_m[15:0]),
+    .address (alu_out_reg_e_m),
     .write_data (rs2_data_reg_e_m),
     .read_data (dm_out)
 );

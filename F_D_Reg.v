@@ -9,7 +9,7 @@ module F_D_Reg (
 	output reg[31:0] pc_reg 
 );
 
-always@(posedge clk or negedge rst) begin
+always@(negedge clk or negedge rst) begin
 	if(!rst) begin
 		inst_reg <= 32'b0;
 		pc_reg <= 32'b0;
