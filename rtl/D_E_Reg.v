@@ -75,7 +75,7 @@ always@(negedge clk or negedge rst) begin
 			alu_src1_sel_reg <= 1'b0;
 			alu_src2_sel_reg <= 1'b0;
 			jb_src1_sel_reg <= 1'b0;
-			opcode_reg <= 5'b0;
+			opcode_reg <= 5'b1;
 			func3_reg <= 3'b0;
 			func7_reg <= 1'b0;
 			dm_w_en_reg <= 4'b0;

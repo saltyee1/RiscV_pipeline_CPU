@@ -1,7 +1,7 @@
 module Hazard_Detection (
 	input [4:0] F_D_rs1_index,
 	input [4:0] F_D_rs2_index,
-	input D_E_wb_en,
+	input D_E_wb_sel,
 	input [4:0] D_E_rd_index,
 	input E_M_branch_taken,
 	output reg F_D_flush,
@@ -14,7 +14,7 @@ module Hazard_Detection (
 reg load_used_DH_flag;
 always@(*) begin
 	if((F_D_rs1_index == D_E_rd_index) || (F_D_rs2_index == D_E_rd_index))
-		if(D_E_wb_en != 1'b0)
+		if(D_E_wb_sel)
 			load_used_DH_flag = 1'b1;
 		else
 			load_used_DH_flag = 1'b0;

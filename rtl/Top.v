@@ -125,7 +125,7 @@ Decoder decoder(
 
 RegFile regfile(
     .clk (clk),
-    .reset (rst),
+    .rst (rst),
     .ecall_sig (ecall_sig_reg_m_w),
     .wb_en (wb_en_reg_m_w),
     .wb_data (wb_data),
@@ -205,7 +205,7 @@ D_E_Reg d_e_reg(
 Mux4_1 rs1_f(
     .in0 (rs1_data_reg_d_e),
     .in1 (alu_out_reg_e_m),
-    .in2 (alu_out_reg_m_w),
+    .in2 (wb_data),
     .in3 (rs1_data_reg_d_e),
     .sel (rs1_forward_sel),
     .result (rs1_data_f)
@@ -221,11 +221,11 @@ Mux m2(
 Mux4_1 rs2_f(
     .in0 (rs2_data_reg_d_e),
     .in1 (alu_out_reg_e_m),
-    .in2 (alu_out_reg_m_w),
+    .in2 (wb_data),
     .in3 (rs2_data_reg_d_e),
     .sel (rs2_forward_sel),
     .result (rs2_data_f)
-); //choose rs1_data forward or not
+); //choose rs2_data forward or not
 
 Mux m3(
     .true_choice(rs2_data_f),
@@ -347,7 +347,7 @@ Mux m5(
 Hazard_Detection HD(
 	.F_D_rs1_index (rs1_index),
 	.F_D_rs2_index (rs2_index),
-	.D_E_wb_en (wb_en_reg_d_e),
+	.D_E_wb_sel (wb_sel_reg_d_e),
 	.D_E_rd_index (rd_index_reg_d_e),
 	.E_M_branch_taken (branch_taken_reg_e_m),
 	.F_D_flush (f_d_flush),
@@ -358,6 +358,8 @@ Hazard_Detection HD(
 );
 
 Forwarding_Unit FU(
+	.E_M_wb_en (wb_en_reg_e_m),
+	.M_W_wb_en (wb_en_reg_m_w),
 	.D_E_rs1_index (rs1_index_reg_d_e),
 	.D_E_rs2_index (rs2_index_reg_d_e),
     .E_M_rd_index (rd_index_reg_e_m),

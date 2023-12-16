@@ -6,6 +6,13 @@ input [31:0] write_data,
 output [31:0] read_data
 );
 reg [7:0] mem [0:65535];
+
+genvar I;
+generate
+  	for (I = 0; I < 10; I = I + 1) begin : gen_regs
+    	wire [31:0] mem_temp = {mem[3+I*4],mem[2+I*4], mem[1+I*4], mem[I*4]};
+	end
+endgenerate
 //reg [7:0] mem [0:16384];
 //Write
 always@(negedge clk) begin

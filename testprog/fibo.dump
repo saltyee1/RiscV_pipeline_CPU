@@ -1,0 +1,30 @@
+
+fibo.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	00000513          	addi	a0,zero,0
+   4:	00008137          	lui	sp,0x8
+   8:	00a00593          	addi	a1,zero,10
+   c:	00000613          	addi	a2,zero,0
+  10:	00100693          	addi	a3,zero,1
+  14:	010000ef          	jal	ra,24 <fibonacci>
+  18:	00000593          	addi	a1,zero,0
+  1c:	00000513          	addi	a0,zero,0
+  20:	00000073          	ecall
+
+00000024 <fibonacci>:
+  24:	00059463          	bne	a1,zero,2c <continue_fibonacci>
+  28:	00008067          	jalr	zero,0(ra)
+
+0000002c <continue_fibonacci>:
+  2c:	00c52023          	sw	a2,0(a0)
+  30:	00060193          	addi	gp,a2,0
+  34:	00d60733          	add	a4,a2,a3
+  38:	00068613          	addi	a2,a3,0
+  3c:	00070693          	addi	a3,a4,0
+  40:	00450513          	addi	a0,a0,4
+  44:	fff58593          	addi	a1,a1,-1
+  48:	fddff06f          	jal	zero,24 <fibonacci>

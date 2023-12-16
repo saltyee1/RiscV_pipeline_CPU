@@ -1,6 +1,6 @@
 module RegFile (
 input clk,
-input reset,
+input rst,
 input wb_en,
 input ecall_sig,
 input [31:0] wb_data,
@@ -48,8 +48,12 @@ generate
 	end
 endgenerate
 
-always@(*) begin
-     if(ecall_sig) begin
+always@(negedge clk or negedge rst) begin
+    if (!rst) begin
+        print_flag = 1'b0;
+        halt = 1'b0;
+    end
+    else if(ecall_sig) begin
 		print_flag = (print_en) ? 1'b1 : 1'b0;
         halt = (stop_flag) ? 1'b1 : 1'b0;
 	end
@@ -61,8 +65,8 @@ end
 
 integer i;
 //Write
-always@(negedge clk or negedge reset) begin
-    if (!reset) begin
+always@(negedge clk or negedge rst) begin
+    if (!rst) begin
         for (i=0; i<=31; i=i+1) regFile[i] <= 32'b0;
     end
     else if (wb_en && rd_index != 5'b0) begin

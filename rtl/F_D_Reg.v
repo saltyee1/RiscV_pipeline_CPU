@@ -11,11 +11,11 @@ module F_D_Reg (
 
 always@(negedge clk or negedge rst) begin
 	if(!rst) begin
-		inst_reg <= 32'b0;
+		inst_reg <= 32'hffffffff;
 		pc_reg <= 32'b0;
 	end
 	else if (flush) begin
-		inst_reg <= 32'b0;
+		inst_reg <= 32'hffffffff;
 		pc_reg <= 32'b0;
 	end
 	else if (stall) begin

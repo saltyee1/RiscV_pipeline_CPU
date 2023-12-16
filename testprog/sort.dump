@@ -1,0 +1,84 @@
+
+sort.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	00001137          	lui	sp,0x1
+   4:	00010113          	addi	sp,sp,0 # 1000 <bss_end+0xf04>
+   8:	00000513          	addi	a0,zero,0
+   c:	00100293          	addi	t0,zero,1
+  10:	00552023          	sw	t0,0(a0)
+  14:	00500293          	addi	t0,zero,5
+  18:	00552223          	sw	t0,4(a0)
+  1c:	00300293          	addi	t0,zero,3
+  20:	00552423          	sw	t0,8(a0)
+  24:	00400293          	addi	t0,zero,4
+  28:	00552623          	sw	t0,12(a0)
+  2c:	00a00293          	addi	t0,zero,10
+  30:	00552823          	sw	t0,16(a0)
+  34:	01600293          	addi	t0,zero,22
+  38:	00552a23          	sw	t0,20(a0)
+  3c:	00200293          	addi	t0,zero,2
+  40:	00552c23          	sw	t0,24(a0)
+  44:	00300293          	addi	t0,zero,3
+  48:	00552e23          	sw	t0,28(a0)
+  4c:	02c00293          	addi	t0,zero,44
+  50:	02552023          	sw	t0,32(a0)
+  54:	00900593          	addi	a1,zero,9
+  58:	008000ef          	jal	ra,60 <SEL_SORT>
+  5c:	094000ef          	jal	ra,f0 <EXIT>
+
+00000060 <SEL_SORT>:
+  60:	ff810113          	addi	sp,sp,-8
+  64:	00112223          	sw	ra,4(sp)
+  68:	00812023          	sw	s0,0(sp)
+  6c:	00000293          	addi	t0,zero,0
+  70:	00000313          	addi	t1,zero,0
+  74:	00000393          	addi	t2,zero,0
+  78:	00058413          	addi	s0,a1,0
+  7c:	fff58593          	addi	a1,a1,-1
+
+00000080 <UNSORTED_ARRAY_BOUNDARY_LOOP>:
+  80:	06b28063          	beq	t0,a1,e0 <END_UNSORTED_ARRAY_BOUNDARY_LOOP>
+  84:	00028393          	addi	t2,t0,0
+  88:	00128313          	addi	t1,t0,1
+
+0000008c <SUBARRAY_LOOP>:
+  8c:	02830663          	beq	t1,s0,b8 <END_SUBARRAY_LOOP>
+  90:	00231f13          	slli	t5,t1,0x2
+  94:	01e50fb3          	add	t6,a0,t5
+  98:	000fae83          	lw	t4,0(t6)
+  9c:	00239f13          	slli	t5,t2,0x2
+  a0:	01e50fb3          	add	t6,a0,t5
+  a4:	000fae03          	lw	t3,0(t6)
+  a8:	01de4463          	blt	t3,t4,b0 <MIN_REMAINS_SAME>
+  ac:	00030393          	addi	t2,t1,0
+
+000000b0 <MIN_REMAINS_SAME>:
+  b0:	00130313          	addi	t1,t1,1
+  b4:	fc000ce3          	beq	zero,zero,8c <SUBARRAY_LOOP>
+
+000000b8 <END_SUBARRAY_LOOP>:
+  b8:	00239f13          	slli	t5,t2,0x2
+  bc:	01e50fb3          	add	t6,a0,t5
+  c0:	000fae03          	lw	t3,0(t6)
+  c4:	00229313          	slli	t1,t0,0x2
+  c8:	00a30333          	add	t1,t1,a0
+  cc:	00032e83          	lw	t4,0(t1)
+  d0:	01c32023          	sw	t3,0(t1)
+  d4:	01dfa023          	sw	t4,0(t6)
+  d8:	00128293          	addi	t0,t0,1
+  dc:	fa0002e3          	beq	zero,zero,80 <UNSORTED_ARRAY_BOUNDARY_LOOP>
+
+000000e0 <END_UNSORTED_ARRAY_BOUNDARY_LOOP>:
+  e0:	00012403          	lw	s0,0(sp)
+  e4:	00412083          	lw	ra,4(sp)
+  e8:	00810113          	addi	sp,sp,8
+  ec:	00008067          	jalr	zero,0(ra)
+
+000000f0 <EXIT>:
+  f0:	00000513          	addi	a0,zero,0
+  f4:	00000593          	addi	a1,zero,0
+  f8:	00000073          	ecall
