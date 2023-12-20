@@ -7,6 +7,9 @@ module E_M_Reg (
 	input [4:0]rd_index,
 	input [31:0]jb_addr,
 	input branch_taken,
+	input is_branch,
+	input is_jump,
+	input guess,
 	/*control signal*/
 	input [3:0] dm_w_en,
 	input ecall_sig,
@@ -18,6 +21,9 @@ module E_M_Reg (
 	output reg[4:0]rd_index_reg,
 	output reg[31:0]jb_addr_reg,
 	output reg branch_taken_reg,
+	output reg is_branch_reg,
+	output reg is_jalr_reg,
+	output reg guess_reg,
 	/*control signal*/
 	output reg[3:0] dm_w_en_reg,
 	output reg ecall_sig_reg,
@@ -32,8 +38,11 @@ always@(negedge clk or negedge rst) begin
 		rs2_data_reg <= 32'b0;
 		rd_index_reg <= 5'b0;
 		jb_addr_reg <= 32'b0;
+		guess_reg <= 1'b0;
 		/*control signal*/
 		branch_taken_reg <= 1'b0;
+		is_branch_reg <= 1'b0;
+		is_jalr_reg <= 1'b0;
 		dm_w_en_reg <= 4'b0;
 	 	ecall_sig_reg <= 1'b0;
 		wb_sel_reg <= 1'b0;
@@ -46,8 +55,11 @@ always@(negedge clk or negedge rst) begin
 		rd_index_reg <= rd_index;
 		jb_addr_reg <= jb_addr;
 		branch_taken_reg <= branch_taken;
+		guess_reg <= guess;
 		if(flush) begin
 			branch_taken_reg <= 1'b0;
+			is_jalr_reg <= 1'b0;
+			is_branch_reg <= 1'b0;
 			dm_w_en_reg <= 4'b0;
 		 	ecall_sig_reg <= 1'b0;
 			wb_sel_reg <= 1'b0;
@@ -56,6 +68,8 @@ always@(negedge clk or negedge rst) begin
 		end
 		else begin
 			branch_taken_reg <= branch_taken;
+			is_jalr_reg <= is_jump;
+			is_branch_reg <= is_branch;
 			dm_w_en_reg <= dm_w_en;
 		 	ecall_sig_reg <= ecall_sig;
 			wb_sel_reg <= wb_sel;

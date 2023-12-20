@@ -56,6 +56,11 @@ wire [1:0] rs1_forward_sel;
 wire [1:0] rs2_forward_sel;
 wire [31:0] rs1_data_f;
 wire [31:0] rs2_data_f;
+wire is_branch;
+wire is_jalr;
+wire hit_e_m;
+wire [31:0]branch_taken_choice_out;
+
 
 /*pipeline register signal*/
 //EXE state
@@ -72,6 +77,8 @@ wire func7_reg_d_e;
 //MEM state
 wire [31:0] jb_addr_reg_e_m;
 wire branch_taken_reg_e_m;
+wire is_jalr_reg_e_m;
+wire is_branch_reg_e_m;
 
 //WB state
 wire [31:0]dm_out_reg_m_w;
@@ -85,6 +92,29 @@ wire [2:0] func3_reg_d_e, func3_reg_e_m, func3_reg_m_w;
 wire [3:0] dm_w_en_reg_d_e, dm_w_en_reg_e_m;
 wire wb_sel_reg_d_e, wb_sel_reg_e_m, wb_sel_reg_m_w;
 wire wb_en_reg_d_e, wb_en_reg_e_m, wb_en_reg_m_w;
+wire guess_reg_f_d, guess_reg_d_e, guess_reg_e_m
+
+
+Next_Pc_Calculator n_p(
+	.current_pc (current_pc),
+    .e_m_pc (pc_reg_e_m),
+    .inst (inst),
+    .e_m_is_jalr (is_jalr_reg_e_m),
+    .e_m_hit (hit_e_m),
+    .branch_predict (),
+    .e_m_branch_taken (branch_taken_reg_e_m),
+    .e_m_baddr (jb_addr_reg_e_m),          
+    .next_pc (next_pc)
+);
+
+Branch_Predictor b_p(
+    .clk (clk), 
+	.rst (rst), 
+    .Branch_taken (branch_taken_reg_e_m),
+    .is_branch (is_branch_reg_e_m),
+    .Guess_result (guess)
+);
+
 
 Reg_PC PC(
     .clk (clk),
@@ -109,8 +139,10 @@ F_D_Reg f_d_reg (
 	.flush (f_d_flush),          //flush or not
 	.inst (inst),
 	.pc (current_pc),
+	.guess (guess),
 	.inst_reg(inst_reg),
-	.pc_reg (pc_reg_f_d)
+	.pc_reg (pc_reg_f_d),
+	.guess_reg (guess_reg_f_d)
 );
 
 Decoder decoder(
@@ -170,6 +202,7 @@ D_E_Reg d_e_reg(
 	.rs2_data (rs2_data_out),
 	.imm_out (imm_ext_out),
 	.pc (pc_reg_f_d),
+	.guess (guess_reg_f_d),
 	/*control signal*/
 	.alu_src1_sel (alu_src1_sel),
 	.alu_src2_sel (alu_src2_sel),
@@ -189,6 +222,7 @@ D_E_Reg d_e_reg(
 	.rs2_data_reg (rs2_data_reg_d_e),
 	.imm_out_reg (imm_out_reg_d_e),
 	.pc_reg (pc_reg_d_e),
+	.guess_reg (guess_reg_d_e),
 	/*control signal*/
 	.alu_src1_sel_reg (alu_src1_sel_reg_d_e),
 	.alu_src2_sel_reg (alu_src2_sel_reg_d_e),
@@ -246,7 +280,9 @@ ALU alu (
 Branch_Taken_Unit btu(
     .opcode (opcode_reg_d_e),
     .alu_out0 (alu_out[0]),
-    .branch_taken (branch_taken)
+    .branch_taken (branch_taken),
+	.is_branch (is_branch),
+	.is_jalr (is_jalr)
 );  //next pc select
 
 Mux m4(
@@ -272,6 +308,9 @@ E_M_Reg e_m_reg (
 	.rd_index (rd_index_reg_d_e),
 	.jb_addr (JB_out),
 	.branch_taken (branch_taken),
+	.is_branch (is_branch),
+	.is_jalr (is_jalr),
+	.guess (guess_reg_d_e)
 	/*control signal*/
 	.dm_w_en (dm_w_en_reg_d_e),
 	.ecall_sig (ecall_sig_reg_d_e),
@@ -284,6 +323,9 @@ E_M_Reg e_m_reg (
 	.rd_index_reg (rd_index_reg_e_m),
 	.jb_addr_reg (jb_addr_reg_e_m),
 	.branch_taken_reg (branch_taken_reg_e_m),
+	.is_branch_reg (is_branch_reg_e_m),
+	.is_jalr_reg (is_jalr_reg_e_m),
+	.guess_reg (guess_reg_e_m),
 	/*control signal*/
 	.dm_w_en_reg (dm_w_en_reg_e_m),
 	.ecall_sig_reg (ecall_sig_reg_e_m),
@@ -292,14 +334,21 @@ E_M_Reg e_m_reg (
 	.func3_reg (func3_reg_e_m)
 );
 
-wire [31:0]pc_add4 = current_pc + 32'd4;
+Hit_Unit hit_u(
+    .is_branch (is_branch_reg_e_m),
+    .branch_taken (branch_taken_reg_e_m),
+    .guess (guess_reg_e_m),
+    .hit (hit_e_m),
+);
 
-Mux m1(
-    .true_choice(jb_addr_reg_e_m),
-    .false_choice(pc_add4),
-    .sel(branch_taken_reg_e_m),
-    .result(next_pc)
-);  //choose next pc
+// wire [31:0]pc_add4 = current_pc + 32'd4;
+
+// Mux m1(
+//     .true_choice(jb_addr_reg_e_m),
+//     .false_choice(pc_add4),
+//     .sel(branch_taken_reg_e_m),
+//     .result(next_pc)
+// );  //choose next pc
 
 SRAM dm(
     .clk (clk),
@@ -349,7 +398,7 @@ Hazard_Detection HD(
 	.F_D_rs2_index (rs2_index),
 	.D_E_wb_sel (wb_sel_reg_d_e),
 	.D_E_rd_index (rd_index_reg_d_e),
-	.E_M_branch_taken (branch_taken_reg_e_m),
+	.E_M_hit (hit_e_m),
 	.F_D_flush (f_d_flush),
 	.D_E_flush (d_e_flush),
 	.E_M_flush (e_m_flush),

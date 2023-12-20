@@ -9,6 +9,7 @@ module D_E_Reg (
 	input [31:0] rs2_data,
 	input [31:0] imm_out,
 	input [31:0] pc,
+	input guess,
 	/*control signal*/
 	input alu_src1_sel,
 	input alu_src2_sel,
@@ -28,6 +29,7 @@ module D_E_Reg (
 	output reg[31:0] rs2_data_reg,
 	output reg[31:0] imm_out_reg,
 	output reg[31:0] pc_reg,
+	output reg guess_reg,
 	/*control signal*/
 	output reg alu_src1_sel_reg,
 	output reg alu_src2_sel_reg,
@@ -50,6 +52,7 @@ always@(negedge clk or negedge rst) begin
 		rs2_data_reg <= 32'b0;
 		imm_out_reg <= 32'b0;
 		pc_reg <= 32'b0;
+		guess_reg <= 1'b0;
 	/*control signal*/
 		alu_src1_sel_reg <= 1'b0;
 		alu_src2_sel_reg <= 1'b0;
@@ -70,6 +73,7 @@ always@(negedge clk or negedge rst) begin
 		rs2_data_reg <= rs2_data;
 		imm_out_reg <= imm_out;
 		pc_reg <= pc;
+		guess_reg <= guess;
 	/*control signal*/
 		if(flush) begin
 			alu_src1_sel_reg <= 1'b0;
