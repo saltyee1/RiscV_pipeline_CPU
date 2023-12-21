@@ -29,10 +29,11 @@ reg [31:0] imm_ext_bp_out;
                         // JAL --> always jump
                         // Branch and predict jump --> jump
                         // other --> pc + 4 
-    wire current_out = (inst[6:2] == `JAL) ? (current_baddr): 
+    wire [31:0] current_out = (inst[6:2] == `JAL) ? (current_baddr): 
                        (((c_guess == jump) && (inst[6:2] == `BRANCH)) ? (current_baddr) : (current_pc4)); 
 
     // em hit check and mux part 
+    wire [31:0] hit_mux_out;
     wire [31:0] em_pc4   = em_pc + 32'd4;
     wire [31:0] em_guess_out = (!em_guess) ? (em_pc4) : (em_baddr);
     Mux hit_mux_unit(

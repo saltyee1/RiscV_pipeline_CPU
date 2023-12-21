@@ -19,8 +19,8 @@ module Branch_Predictor (
     parameter nottaken = 1'b0;
     parameter taken    = 1'b1;
 
-    always @(posedge clk) begin
-        if (rst)begin
+    always @(negedge clk or negedge rst) begin
+        if (!rst)begin
             state <= 2'b00;
         end else begin
             state <= nextstate;

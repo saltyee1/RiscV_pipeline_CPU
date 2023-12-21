@@ -17,6 +17,7 @@ module E_M_Reg (
 	input wb_sel,
 	input wb_en,
 	input [2:0] func3,
+	input [31:0] pc,
 
 	output reg[31:0]alu_out_reg,
 	output reg[31:0]rs2_data_reg,
@@ -26,7 +27,8 @@ module E_M_Reg (
 	output reg is_branch_reg,
 	output reg is_jalr_reg,
 	output reg guess_reg,
-	output reg inst_type_reg,
+	output reg [1:0]inst_type_reg,
+	output reg pc_reg,
 	/*control signal*/
 	output reg[3:0] dm_w_en_reg,
 	output reg ecall_sig_reg,
@@ -42,6 +44,7 @@ always@(negedge clk or negedge rst) begin
 		rd_index_reg <= 5'b0;
 		jb_addr_reg <= 32'b0;
 		guess_reg <= 1'b0;
+		pc_reg <= 32'b0;
 		/*control signal*/
 		branch_taken_reg <= 1'b0;
 		is_branch_reg <= 1'b0;
@@ -59,6 +62,7 @@ always@(negedge clk or negedge rst) begin
 		rd_index_reg <= rd_index;
 		jb_addr_reg <= jb_addr;
 		guess_reg <= guess;
+		pc_reg <= pc;
 		if(flush) begin
 			branch_taken_reg <= 1'b0;
 			is_jalr_reg <= 1'b0;

@@ -1,0 +1,46 @@
+xmverilog(64): 22.03-s003: (c) Copyright 1995-2022 Cadence Design Systems, Inc.
+TOOL:	xmverilog	22.03-s003: Started on Dec 21, 2023 at 17:07:06 CST
+ncverilog
+	../sim/testbench.v
+	+access+r
+xmverilog: *W,NCEXDEP: Executable (ncverilog) is deprecated. Use (xmverilog) instead.
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+	.pc_reg (pc_reg_e_m),
+	                  |
+xmelab: *W,CUVMPW (../rtl/Top.v,344|19): port sizes differ in port connection(32/1) for the instance(tb_Top.top) .
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.E_M_Reg:v <0x294548c1>
+			streams:   5, words:  6309
+		worklib.nextpc_unit:v <0x639a9d06>
+			streams:   7, words:  2099
+		worklib.Top:v <0x687a2681>
+			streams:   3, words:   506
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		               Instances  Unique
+		Modules:              29      23
+		Registers:            78      76
+		Scalar wires:         44       -
+		Expanded wires:       32       1
+		Vectored wires:      116       -
+		Always blocks:        32      30
+		Initial blocks:        3       3
+		Cont. assignments:    71      29
+		Pseudo assignments:    3       3
+	Writing initial simulation snapshot: worklib.tb_Top:v
+Loading snapshot worklib.tb_Top:v .................... Done
+*Verdi* Loading libsscore_xcelium171.so
+xcelium> source /usr/cad/cadence/XCELIUM/XCELIUM_22.03.003/tools/xcelium/files/xmsimrc
+xcelium> run
+xmsim: *W,PRUASZ: Unpacked array at "tb_Top.top.im.mem" of 65536 elements exceeds limit of 16384 - not probed
+ Use 'probe -create -unpacked 65536 tb_Top.top.im.mem' or 'setenv SHM_UNPACKED_LIMIT 65536' to adjust limit.
+xmsim: *W,PRUASZ: Unpacked array at "tb_Top.top.dm.mem" of 65536 elements exceeds limit of 16384 - not probed
+ Use 'probe -create -unpacked 65536 tb_Top.top.dm.mem' or 'setenv SHM_UNPACKED_LIMIT 65536' to adjust limit.
+
+Simulation complete via $finish(1) at time 3005 NS + 0
+../sim/testbench.v:59     $finish;
+xcelium> exit
+TOOL:	xmverilog	22.03-s003: Exiting on Dec 21, 2023 at 17:07:07 CST  (total: 00:00:01)

@@ -84,7 +84,7 @@ wire [31:0] jb_addr_reg_e_m;
 wire branch_taken_reg_e_m;
 wire is_jalr_reg_e_m;
 wire is_branch_reg_e_m;
-wire inst_type_reg_e_m;
+wire [1:0] inst_type_reg_e_m;
 
 //WB state
 wire [31:0]dm_out_reg_m_w;
@@ -151,7 +151,7 @@ F_D_Reg f_d_reg (
 	.flush (f_d_flush),          //flush or not
 	.inst (inst),
 	.pc (current_pc),
-	.guess (guess),
+	.guess (current_guess),
 	.inst_reg(inst_reg),
 	.pc_reg (pc_reg_f_d),
 	.guess_reg (guess_reg_f_d)
@@ -324,6 +324,7 @@ E_M_Reg e_m_reg (
 	.is_branch (is_branch),
 	.is_jalr (is_jalr),
 	.guess (guess_reg_d_e),
+	.pc (pc_reg_d_e),
 	/*control signal*/
 	.dm_w_en (dm_w_en_reg_d_e),
 	.ecall_sig (ecall_sig_reg_d_e),
@@ -340,6 +341,7 @@ E_M_Reg e_m_reg (
 	.is_branch_reg (is_branch_reg_e_m),
 	.is_jalr_reg (is_jalr_reg_e_m),
 	.guess_reg (guess_reg_e_m),
+	.pc_reg (pc_reg_e_m),
 	/*control signal*/
 	.dm_w_en_reg (dm_w_en_reg_e_m),
 	.ecall_sig_reg (ecall_sig_reg_e_m),
