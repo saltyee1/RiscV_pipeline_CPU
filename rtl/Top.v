@@ -59,7 +59,9 @@ wire [31:0] rs2_data_f;
 wire is_branch;
 wire is_jalr;
 wire hit_e_m;
-wire [31:0]branch_taken_choice_out;
+wire [31:0] branch_taken_choice_out;
+wire [1:0] inst_type;
+wire current_guess;
 
 
 /*pipeline register signal*/
@@ -79,6 +81,7 @@ wire [31:0] jb_addr_reg_e_m;
 wire branch_taken_reg_e_m;
 wire is_jalr_reg_e_m;
 wire is_branch_reg_e_m;
+wire inst_type_reg_e_m;
 
 //WB state
 wire [31:0]dm_out_reg_m_w;
@@ -95,16 +98,23 @@ wire wb_en_reg_d_e, wb_en_reg_e_m, wb_en_reg_m_w;
 wire guess_reg_f_d, guess_reg_d_e, guess_reg_e_m
 
 
-Next_Pc_Calculator n_p(
+Next_Pc_Calculator next_p(
 	.current_pc (current_pc),
     .e_m_pc (pc_reg_e_m),
     .inst (inst),
-    .e_m_is_jalr (is_jalr_reg_e_m),
+    .e_m_inst_type (inst_type_reg_e_m),
     .e_m_hit (hit_e_m),
-    .branch_predict (),
-    .e_m_branch_taken (branch_taken_reg_e_m),
+    .current_guess (current_guess),
+	.e_m_guess (guess_reg_e_m),
     .e_m_baddr (jb_addr_reg_e_m),          
     .next_pc (next_pc)
+);
+
+Hit_Unit hit_u(
+    .is_branch (is_branch_reg_e_m),
+    .branch_taken (branch_taken_reg_e_m),
+    .guess (guess_reg_e_m),
+    .hit (hit_e_m),
 );
 
 Branch_Predictor b_p(
@@ -112,7 +122,7 @@ Branch_Predictor b_p(
 	.rst (rst), 
     .Branch_taken (branch_taken_reg_e_m),
     .is_branch (is_branch_reg_e_m),
-    .Guess_result (guess)
+    .Guess_result (current_guess)
 );
 
 
@@ -282,7 +292,8 @@ Branch_Taken_Unit btu(
     .alu_out0 (alu_out[0]),
     .branch_taken (branch_taken),
 	.is_branch (is_branch),
-	.is_jalr (is_jalr)
+	.is_jalr (is_jalr),
+	.inst_type (inst_type)
 );  //next pc select
 
 Mux m4(
@@ -317,6 +328,7 @@ E_M_Reg e_m_reg (
 	.wb_sel (wb_sel_reg_d_e),
 	.wb_en (wb_en_reg_d_e),
 	.func3 (func3_reg_d_e),
+	.inst_type (inst_type),
 
 	.alu_out_reg (alu_out_reg_e_m),
 	.rs2_data_reg (rs2_data_reg_e_m),
@@ -331,14 +343,8 @@ E_M_Reg e_m_reg (
 	.ecall_sig_reg (ecall_sig_reg_e_m),
 	.wb_sel_reg (wb_sel_reg_e_m),
 	.wb_en_reg (wb_en_reg_e_m),
-	.func3_reg (func3_reg_e_m)
-);
-
-Hit_Unit hit_u(
-    .is_branch (is_branch_reg_e_m),
-    .branch_taken (branch_taken_reg_e_m),
-    .guess (guess_reg_e_m),
-    .hit (hit_e_m),
+	.func3_reg (func3_reg_e_m),
+	.inst_type_reg (inst_type_reg_e_m)
 );
 
 // wire [31:0]pc_add4 = current_pc + 32'd4;
@@ -399,6 +405,7 @@ Hazard_Detection HD(
 	.D_E_wb_sel (wb_sel_reg_d_e),
 	.D_E_rd_index (rd_index_reg_d_e),
 	.E_M_hit (hit_e_m),
+	.E_M_is_jalr (is_jalr_reg_e_m)
 	.F_D_flush (f_d_flush),
 	.D_E_flush (d_e_flush),
 	.E_M_flush (e_m_flush),

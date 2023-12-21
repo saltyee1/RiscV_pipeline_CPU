@@ -8,7 +8,7 @@ module F_D_Reg (
 	input guess,
 	output reg[31:0] inst_reg,
 	output reg[31:0] pc_reg,
-	output reg guess_reg, 
+	output reg guess_reg
 );
 
 always@(negedge clk or negedge rst) begin
