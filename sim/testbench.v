@@ -19,7 +19,7 @@
 // `include "rtl/Branch_Taken_Unit.v"
 `include "../rtl/Top.v"
 
-`define PROG_PATH "../testprog/fibo.hex"
+`define PROG_PATH "../testprog/sort.hex"
 `define memptint_base_addr 0
 `define memptint_counts 10
 
@@ -55,8 +55,8 @@ initial begin
     //     $display("mem[%d] : %d", (`memptint_base_addr+i*4), ({top.dm.mem[`memptint_base_addr+3+i*4], top.dm.mem[`memptint_base_addr+2+i*4], top.dm.mem[`memptint_base_addr+1+i*4], top.dm.mem[`memptint_base_addr+i*4]}));
     // end
 	//$finish;
-    #(100*CLK_PERIOD);
-    $finish;
+    //#(200*CLK_PERIOD);
+    //$finish;
     wait (halt)
         for (i=0; i<`memptint_counts; i=i+1 ) begin
             $display("mem[%d] : %d", (`memptint_base_addr+i*4), ({top.dm.mem[`memptint_base_addr+3+i*4], top.dm.mem[`memptint_base_addr+2+i*4], top.dm.mem[`memptint_base_addr+1+i*4], top.dm.mem[`memptint_base_addr+i*4]}));

@@ -1,0 +1,82 @@
+xmsim(64) 22.03-s003
+Linux 5.13.0-40-generic #45~20.04.1-Ubuntu SMP Mon Apr 4 09:38:31 UTC 2022 x86_64
+CPU cores: 48
+Limit information:
+======================================
+cputime			unlimited
+filesize		unlimited
+datasize		unlimited
+stacksize		8192 kbytes
+coredumpsize	0 kbytes
+memoryuse		unlimited
+vmemoryuse		unlimited
+descriptors		1024
+memorylocked	65536 kbytes
+maxproc			514465
+======================================
+(Special)Runtime environment variables:
+
+Runtime environment variables:
+USER=co2023_student_9
+LOGNAME=co2023_student_9
+HOME=/home/CO2023/student_9
+PATH=/usr/cad/synopsys/verdi/2019.06//bin:/usr/cad/cadence/XCELIUM/XCELIUM_22.03.003/tools/bin/64bit:/usr/cad/cadence/XCELIUM/XCELIUM_22.03.003/tools/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/riscv/bin:/opt/riscv/bin
+SHELL=/bin/tcsh
+TERM=xterm
+DISPLAY=localhost:19.0
+XDG_SESSION_ID=48481
+XDG_RUNTIME_DIR=/run/user/1389
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1389/bus
+XDG_SESSION_TYPE=tty
+XDG_SESSION_CLASS=user
+MOTD_SHOWN=pam
+LANG=en_US.UTF-8
+LC_NUMERIC=lzh_TW
+LC_TIME=lzh_TW
+LC_MONETARY=lzh_TW
+LC_PAPER=lzh_TW
+LC_NAME=lzh_TW
+LC_ADDRESS=lzh_TW
+LC_TELEPHONE=lzh_TW
+LC_MEASUREMENT=lzh_TW
+LC_IDENTIFICATION=lzh_TW
+SSH_CLIENT=140.116.20.93 4594 22
+SSH_CONNECTION=140.116.20.93 4594 140.116.164.70 22
+SSH_TTY=/dev/pts/21
+HOSTTYPE=x86_64-linux
+VENDOR=unknown
+OSTYPE=linux
+MACHTYPE=x86_64
+SHLVL=1
+PWD=/home/CO2023/student_9/vlsi/pl_cpu/cpu/workspace
+GROUP=co2023_student_9
+HOST=user
+REMOTEHOST=140.116.20.93
+LD_LIBRARY_PATH=/usr/cad/synopsys/verdi/2019.06//share/PLI/IUS/LINUX64
+LM_LICENSE_FILE=26585@lstn:5280@lstn:
+SHLIB_PATH=/usr/cad/synopsys/verdi/2019.06//etc/lib/libstdc++/LINUX64/:/usr/cad/synopsys/verdi/2019.06//share/PLI/lib/LINUX64/:/usr/cad/synopsys/verdi/2019.06//share/PLI/VCS/LINUX64/:
+VERDI_HOME=/usr/cad/synopsys/verdi/2019.06/
+_XRUNROOT_=/usr/cad/cadence/XCELIUM/XCELIUM_22.03.003/tools
+_IRUNROOT_=/usr/cad/cadence/XCELIUM/XCELIUM_22.03.003/tools
+_HELIUMROOT_=/usr/cad/cadence/XCELIUM/XCELIUM_22.03.003/tools
+CDS_ARCH=lnx86
+XMRUNMODE=xmverilog:./xcelium.d/run.lnx8664.22.03.d
+XRUNBATCH=FALSE
+AMS_LOG_FILE_NAME=xmverilog.log
+IMPERAS_PORT_FILE=.vsp_ovp_gdb_port
+TCL_LIBRARY=/usr/cad/cadence/XCELIUM/XCELIUM_22.03.003/tools/inca/files/tcl/library
+Runtime command line arguments:
+argv[0]=xmverilog
+argv[1]=../sim/testbench.v
+argv[2]=+access+r
+71 profile - 100
+          CPU/Mem usage: 0.020 sys,  0.010 user,  109.07M sys,  0.00M vm
+72 VC callback profile - scalar:0 vector:0
+73 Thu Dec 21 19:04:05 2023
+74 pliAppInit
+75 FSDB_GATE is disabled.
+76 Enable Parallel Dumping.
+77 pliAppMiscSet: New Sim Round
+78 pliEntryInit
+79 LIBSSCORE=found /usr/cad/synopsys/verdi/2019.06//share/PLI/IUS/LINUX64/libsscore_xcelium171.so through $LD_LIBRARY_PATH setting.
+80 Sim process exit

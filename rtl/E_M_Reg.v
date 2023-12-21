@@ -28,7 +28,7 @@ module E_M_Reg (
 	output reg is_jalr_reg,
 	output reg guess_reg,
 	output reg [1:0]inst_type_reg,
-	output reg pc_reg,
+	output reg [31:0]pc_reg,
 	/*control signal*/
 	output reg[3:0] dm_w_en_reg,
 	output reg ecall_sig_reg,

@@ -35,7 +35,7 @@ reg [31:0] imm_ext_bp_out;
     // em hit check and mux part 
     wire [31:0] hit_mux_out;
     wire [31:0] em_pc4   = em_pc + 32'd4;
-    wire [31:0] em_guess_out = (!em_guess) ? (em_pc4) : (em_baddr);
+    wire [31:0] em_guess_out = (em_guess) ? (em_pc4) : (em_baddr);
     Mux hit_mux_unit(
         .true_choice (current_out ),
         .false_choice(em_guess_out),

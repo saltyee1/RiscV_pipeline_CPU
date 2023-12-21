@@ -1,0 +1,7 @@
+s1(21Dec2023:17:11:01):  ncverilog ../sim/testbench.v +access+r 
+s2(21Dec2023:17:15:47):  ncverilog ../sim/testbench.v +access+r 
+s3(21Dec2023:17:32:06):  ncverilog ../sim/testbench.v +access+r 
+s4(21Dec2023:17:41:52):  ncverilog ../sim/testbench.v +access+r 
+s5(21Dec2023:19:01:26):  ncverilog ../sim/testbench.v +access+r 
+s6(21Dec2023:19:03:05):  ncverilog ../sim/testbench.v +access+r 
+s7(21Dec2023:19:04:05):  ncverilog ../sim/testbench.v +access+r 
