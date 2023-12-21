@@ -1,3 +1,0 @@
-Command Line: /usr/cad/synopsys/verdi/2019.06/platform/LINUXAMD64/bin/vfast -silent -del . -o /home/CO2023/student_9/vlsi/pl_cpu/cpu/workspace/tb_Top.vcd.fsdb -ft verilog /home/CO2023/student_9/vlsi/pl_cpu/cpu/workspace/tb_Top.vcd
-uname(Linux user 5.13.0-40-generic #45~20.04.1-Ubuntu SMP Mon Apr 4 09:38:31 UTC 2022 x86_64)
-au time 0.111408 0.006479 0.002624 delta 16609280 16609280 total 47775744 47775744
