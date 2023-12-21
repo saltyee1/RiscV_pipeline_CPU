@@ -8,7 +8,7 @@ module E_M_Reg (
 	input [31:0]jb_addr,
 	input branch_taken,
 	input is_branch,
-	input is_jump,
+	input is_jalr,
 	input guess,
 	input [1:0]inst_type,
 	/*control signal*/
@@ -72,7 +72,7 @@ always@(negedge clk or negedge rst) begin
 		end
 		else begin
 			branch_taken_reg <= branch_taken;
-			is_jalr_reg <= is_jump;
+			is_jalr_reg <= is_jalr;
 			is_branch_reg <= is_branch;
 			inst_type_reg <= inst_type;
 			dm_w_en_reg <= dm_w_en;

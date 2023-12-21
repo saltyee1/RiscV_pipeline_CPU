@@ -17,6 +17,9 @@
 `include "../rtl/Hazard_Detection.v"
 `include "../rtl/Forwarding_Unit.v"
 `include "../rtl/Branch_Taken_Unit.v"
+`include "../rtl/Hit_Unit.v"
+`include "../rtl/nextpc_unit.v"
+`include "../rtl/Branch_Predictor.v"
 module Top (
     input clk,
     input rst,
@@ -95,26 +98,25 @@ wire [2:0] func3_reg_d_e, func3_reg_e_m, func3_reg_m_w;
 wire [3:0] dm_w_en_reg_d_e, dm_w_en_reg_e_m;
 wire wb_sel_reg_d_e, wb_sel_reg_e_m, wb_sel_reg_m_w;
 wire wb_en_reg_d_e, wb_en_reg_e_m, wb_en_reg_m_w;
-wire guess_reg_f_d, guess_reg_d_e, guess_reg_e_m
+wire guess_reg_f_d, guess_reg_d_e, guess_reg_e_m;
 
-
-Next_Pc_Calculator next_p(
-	.current_pc (current_pc),
-    .e_m_pc (pc_reg_e_m),
-    .inst (inst),
-    .e_m_inst_type (inst_type_reg_e_m),
-    .e_m_hit (hit_e_m),
-    .current_guess (current_guess),
-	.e_m_guess (guess_reg_e_m),
-    .e_m_baddr (jb_addr_reg_e_m),          
-    .next_pc (next_pc)
+nextpc_unit n_pcu(
+    .inst (inst), 
+    .current_pc (current_pc),
+    .em_pc (pc_reg_e_m),
+    .em_baddr (jb_addr_reg_e_m),
+    .c_guess (current_guess), // Branch_Predictor port  .Guess_result()
+    .em_guess (guess_reg_e_m),
+    .hit (hit_e_m),
+    .em_type (inst_type_reg_e_m),
+    .nextpc(next_pc)
 );
 
 Hit_Unit hit_u(
     .is_branch (is_branch_reg_e_m),
     .branch_taken (branch_taken_reg_e_m),
     .guess (guess_reg_e_m),
-    .hit (hit_e_m),
+    .hit (hit_e_m)
 );
 
 Branch_Predictor b_p(
@@ -321,7 +323,7 @@ E_M_Reg e_m_reg (
 	.branch_taken (branch_taken),
 	.is_branch (is_branch),
 	.is_jalr (is_jalr),
-	.guess (guess_reg_d_e)
+	.guess (guess_reg_d_e),
 	/*control signal*/
 	.dm_w_en (dm_w_en_reg_d_e),
 	.ecall_sig (ecall_sig_reg_d_e),
@@ -405,7 +407,7 @@ Hazard_Detection HD(
 	.D_E_wb_sel (wb_sel_reg_d_e),
 	.D_E_rd_index (rd_index_reg_d_e),
 	.E_M_hit (hit_e_m),
-	.E_M_is_jalr (is_jalr_reg_e_m)
+	.E_M_is_jalr (is_jalr_reg_e_m),
 	.F_D_flush (f_d_flush),
 	.D_E_flush (d_e_flush),
 	.E_M_flush (e_m_flush),
