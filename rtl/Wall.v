@@ -130,7 +130,7 @@ module wallace(src1, src2, result);
 	fulladder a61(s[51], cr[50], cr[60], result[12], cr[61]);
 	fulladder a62(s[52], cr[51], cr[61], result[13], cr[62]);
 	fulladder a63(s[53], cr[52], cr[62], result[14], cr[63]);
-	assign result[15] = cr[53];
+	assign result[15]=s[53];
       
 	 
 endmodule
