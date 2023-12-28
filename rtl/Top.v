@@ -9,7 +9,6 @@
 `include "../rtl/Mux4_1.v"
 `include "../rtl/Reg_PC.v"
 `include "../rtl/RegFile.v"
-`include "../rtl/SRAM.v"
 `include "../rtl/F_D_Reg.v"
 `include "../rtl/D_E_Reg.v"
 `include "../rtl/E_M_Reg.v"
@@ -20,18 +19,30 @@
 `include "../rtl/Hit_Unit.v"
 `include "../rtl/nextpc_unit.v"
 `include "../rtl/Branch_Predictor.v"
+`include "../rtl/adder.v"
+`include "../rtl/Wallace_multiplier_64.v"
+`include "../rtl/Wall.v"
 module Top (
     input clk,
     input rst,
+	/*for im*/
+	input [31:0] inst,
+	output [15:0] im_addr,
+	output [3:0] im_w_en,
+	/*for dm*/
+	input [31:0] dm_read_data,
+	output [31:0] dm_write_data,
+	output [15:0] dm_addr,
+	output [3:0] dm_w_en,
     output halt,
 	output print_flag
 );
 wire [4:0]  opcode;
 wire [2:0]  func3;
-wire        func7;
+wire [1:0]  func7;
 wire [31:0] alu_src1, alu_src2, alu_out;
 wire [31:0] imm_ext_out;
-wire [31:0] inst,inst_reg;
+wire [31:0] inst_reg;
 
 wire [4:0]  rs1_index;
 wire [4:0]  rs2_index;
@@ -42,9 +53,8 @@ wire [31:0] ld_data_f;
 
 wire [31:0] current_pc, next_pc;
 
-wire [3:0]  im_w_en, dm_w_en;
+wire [3:0]  ctrl_im_w_en, ctrl_dm_w_en;
 wire        wb_en;
-wire [31:0] dm_out;
 wire [31:0] rs1_data_out, rs2_data_out;
 wire [31:0] wb_data;
 
@@ -77,7 +87,7 @@ wire alu_src1_sel_reg_d_e ;
 wire alu_src2_sel_reg_d_e;
 wire jb_src1_sel_reg_d_e;
 wire [4:0] opcode_reg_d_e;
-wire func7_reg_d_e;
+wire [1:0] func7_reg_d_e;
 
 //MEM state
 wire [31:0] jb_addr_reg_e_m;
@@ -87,7 +97,7 @@ wire is_branch_reg_e_m;
 wire [1:0] inst_type_reg_e_m;
 
 //WB state
-wire [31:0]dm_out_reg_m_w;
+wire [31:0]dm_read_data_reg_m_w;
 
 wire [31:0] pc_reg_f_d, pc_reg_d_e, pc_reg_e_m;
 wire [4:0] rd_index_reg_d_e, rd_index_reg_e_m, rd_index_reg_m_w;
@@ -99,6 +109,12 @@ wire [3:0] dm_w_en_reg_d_e, dm_w_en_reg_e_m;
 wire wb_sel_reg_d_e, wb_sel_reg_e_m, wb_sel_reg_m_w;
 wire wb_en_reg_d_e, wb_en_reg_e_m, wb_en_reg_m_w;
 wire guess_reg_f_d, guess_reg_d_e, guess_reg_e_m;
+
+assign im_addr = current_pc[15:0];
+assign dm_addr = alu_out_reg_e_m[15:0];
+assign dm_write_data = rs2_data_reg_e_m;
+assign dm_w_en = dm_w_en_reg_e_m;
+
 
 nextpc_unit n_pcu(
     .inst (inst), 
@@ -136,13 +152,21 @@ Reg_PC PC(
     .current_pc (current_pc)
 );
 
-SRAM im(
-    .clk (clk),
-    .w_en (4'b0),
-    .address (current_pc[15:0]),
-    .write_data (32'b0),
-    .read_data (inst)
-);
+// SRAM dm(
+//     .clk (clk),
+//     .w_en (dm_w_en_reg_e_m),
+//     .address (alu_out_reg_e_m[15:0]),
+//     .write_data (rs2_data_reg_e_m),
+//     .read_data (dm_read_data)
+// );
+
+// SRAM im(
+//     .clk (clk),
+//     .w_en (4'b0),
+//     .address (current_pc[15:0]),
+//     .write_data (32'b0),
+//     .read_data (inst)
+// );
 
 F_D_Reg f_d_reg (
 	.clk (clk),
@@ -194,7 +218,7 @@ Controller contr(
     //.alu_branch (alu_out[0]),
     //.next_pc_sel (next_pc_sel),
     .im_w_en (im_w_en),
-    .dm_w_en (dm_w_en),
+    .dm_w_en (ctrl_dm_w_en),
     .wb_en (wb_en),
     .jb_src1_sel (jb_src1_sel),
     .alu_src1_sel (alu_src1_sel),
@@ -222,7 +246,7 @@ D_E_Reg d_e_reg(
 	.opcode (opcode),
 	.func3 (func3),
 	.func7 (func7),
-	.dm_w_en (dm_w_en),
+	.dm_w_en (ctrl_dm_w_en),
 	.ecall_sig (ecall_sig),
 	.wb_sel (wb_sel),
 	.wb_en (wb_en),
@@ -360,18 +384,18 @@ E_M_Reg e_m_reg (
 //     .result(next_pc)
 // );  //choose next pc
 
-SRAM dm(
-    .clk (clk),
-    .w_en (dm_w_en_reg_e_m),
-    .address (alu_out_reg_e_m[15:0]),
-    .write_data (rs2_data_reg_e_m),
-    .read_data (dm_out)
-);
+// SRAM dm(
+//     .clk (clk),
+//     .w_en (dm_w_en_reg_e_m),
+//     .address (alu_out_reg_e_m[15:0]),
+//     .write_data (rs2_data_reg_e_m),
+//     .read_data (dm_read_data)
+// );
 
 M_W_Reg m_w_reg(
 	.clk (clk),
 	.rst (rst),
-	.dm_out (dm_out),
+	.dm_out (dm_read_data),
 	.alu_out (alu_out_reg_e_m),
 	.rd_index (rd_index_reg_e_m),
 	/*control signal*/
@@ -380,7 +404,7 @@ M_W_Reg m_w_reg(
 	.wb_en (wb_en_reg_e_m),
 	.func3 (func3_reg_e_m),
 
-	.dm_out_reg (dm_out_reg_m_w),
+	.dm_out_reg (dm_read_data_reg_m_w),
 	.alu_out_reg (alu_out_reg_m_w),
 	.rd_index_reg (rd_index_reg_m_w),
 	/*control signal*/
@@ -392,7 +416,7 @@ M_W_Reg m_w_reg(
 
 LD_Filter ld_filter(
     .func3 (func3_reg_m_w),
-    .ld_data (dm_out_reg_m_w),
+    .ld_data (dm_read_data_reg_m_w),
     .ld_data_f (ld_data_f)
 );
 

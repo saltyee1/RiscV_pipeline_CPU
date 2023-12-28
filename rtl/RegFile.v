@@ -65,7 +65,7 @@ end
 
 integer i;
 //Write
-always@(negedge clk or negedge rst) begin
+always@(posedge clk or negedge rst) begin
     if (!rst) begin
         for (i=0; i<=31; i=i+1) regFile[i] <= 32'b0;
     end

@@ -1,28 +1,9 @@
-// `include "rtl/define.v"
-// `include "rtl/ALU.v"
-// `include "rtl/Controller.v"
-// `include "rtl/Decoder.v"
-// `include "rtl/Imme_Ext.v"
-// `include "rtl/JB_Unit.v"
-// `include "rtl/LD_Filter.v"
-// `include "rtl/Mux.v"
-// `include "rtl/Mux4_1.v"
-// `include "rtl/Reg_PC.v"
-// `include "rtl/RegFile.v"
-// `include "rtl/SRAM.v"
-// `include "rtl/F_D_Reg.v"
-// `include "rtl/D_E_Reg.v"
-// `include "rtl/E_M_Reg.v"
-// `include "rtl/M_W_Reg.v"
-// `include "rtl/Hazard_Detection.v"
-// `include "rtl/Forwarding_Unit.v"
-// `include "rtl/Branch_Taken_Unit.v"
 `include "../rtl/Top.v"
 `include "../rtl/SRAM.v"
 
-`define PROG_PATH "../testprog/fibo.hex"
+`define PROG_PATH "../testprog/multi.hex"
 `define memptint_base_addr 0
-`define memptint_counts 10
+`define memptint_counts 9
 
 module tb_Top;
 reg clk;
@@ -97,13 +78,14 @@ initial begin
     //$finish;
     wait (halt)
         for (i=0; i<`memptint_counts; i=i+1 ) begin
-            $display("mem[%d] : %d", (`memptint_base_addr+i*4), ({dm.mem[`memptint_base_addr+3+i*4], dm.mem[`memptint_base_addr+2+i*4], dm.mem[`memptint_base_addr+1+i*4], dm.mem[`memptint_base_addr+i*4]}));
+            $display("mem[%d] : %d", (`memptint_base_addr+i*8), $signed({dm.mem[`memptint_base_addr+7+i*8], dm.mem[`memptint_base_addr+6+i*8], dm.mem[`memptint_base_addr+5+i*8], dm.mem[`memptint_base_addr+4+i*8],
+                                                                  dm.mem[`memptint_base_addr+3+i*8], dm.mem[`memptint_base_addr+2+i*8], dm.mem[`memptint_base_addr+1+i*8], dm.mem[`memptint_base_addr+i*8]}));
         end
     $finish;
 end
 
 initial begin
-    $dumpfile("tb_Top.vcd");
+    $dumpfile("tn_multi.vcd");
     $dumpvars;
 	//$fsdbDumpMDA(2, top);
 end

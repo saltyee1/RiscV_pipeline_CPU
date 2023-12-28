@@ -16,7 +16,7 @@ module D_E_Reg (
 	input jb_src1_sel,
 	input [4:0] opcode,
 	input [2:0] func3,
-	input func7,
+	input [1:0] func7,
 	input [3:0] dm_w_en,
 	input ecall_sig,
 	input wb_sel,
@@ -36,7 +36,7 @@ module D_E_Reg (
 	output reg jb_src1_sel_reg,
 	output reg [4:0] opcode_reg,
 	output reg [2:0] func3_reg,
-	output reg func7_reg,
+	output reg [1:0]func7_reg,
 	output reg [3:0] dm_w_en_reg,
 	output reg ecall_sig_reg,
 	output reg wb_sel_reg,
@@ -59,7 +59,7 @@ always@(negedge clk or negedge rst) begin
 		jb_src1_sel_reg <= 1'b0;
 		opcode_reg <= 5'b0;
 		func3_reg <= 3'b0;
-		func7_reg <= 1'b0;
+		func7_reg <= 2'b0;
 		dm_w_en_reg <= 4'b0;
 		ecall_sig_reg <= 1'b0;
 		wb_sel_reg <= 1'b0;
@@ -81,7 +81,7 @@ always@(negedge clk or negedge rst) begin
 			jb_src1_sel_reg <= 1'b0;
 			opcode_reg <= 5'b1;
 			func3_reg <= 3'b0;
-			func7_reg <= 1'b0;
+			func7_reg <= 2'b0;
 			dm_w_en_reg <= 4'b0;
 			ecall_sig_reg <= 1'b0;
 			wb_sel_reg <= 1'b0;

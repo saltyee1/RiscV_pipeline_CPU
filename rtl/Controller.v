@@ -17,7 +17,7 @@ assign ecall_sig = (opcode == `ECALL) ? 1'b1 : 1'b0;
 
 //assign next_pc_sel = ((alu_branch && opcode == `BRANCH)|| opcode == `JALR || opcode == `JAL) ? 1'b1 : 1'b0;     //branch is 1
 
-assign im_w_en = 1'b0;  //only read
+assign im_w_en = 3'b0;  //only read
 
 always @(*) begin
     case (opcode)
