@@ -42,7 +42,7 @@ _start:
         
         # SW
         sw t0, 12(a0)   # Store t0 in a3, a3 = 0x0000 0001
-        addi t0, x0, -2047 # Update t0 = 0x(FFFF F)FFF => -2047 (12bits)
+        addi t0, x0, -1 # Update t0 = 0x(FFFF F)FFF => -1 (12bits)
         sw t0, 0(a0)    # Store t0 in a0, a0 = 0xFFFF FFFF
         lw a0, 12(a0)    # Load a3 to a0, a0 = 0x0000 0001
         BEQ a0, t0, Excep   # if a0 == t0, Error happened
@@ -51,7 +51,7 @@ _start:
         addi t0, x0, 0  # set t0 = 0
         sw t0, 12(a0)   # Store t0 in a3, a3 = 0x0000 0000
 
-        addi t0, x0, -2047  # Update t0 = 0x(FFFF F)FFF => -2047 (12bits)
+        addi t0, x0, -1  # Update t0 = 0x(FFFF F)FFF => -1 (12bits)
         SW t0, 8(a0)     # Store t0 (32bits) in a2, a2 = 0xFFFF FFFF
         SH t0, 12(a0)    # Store t0 (16bits) in a3, a3 = 0x0000 FFFF
         LHU a1, 12(a0)   # Load a3 to a1 (unsigned, 16bits), a1 = 0x0000 FFFF
@@ -63,7 +63,7 @@ _start:
         addi t0, x0, 0 # set t0 = 0
         sw t0, 12(a0)   # Store t0 in a3, a3 = 0x0000 0000
 
-        addi t0, x0, -2032 # Update t0 = 0x(FFFF F)FF0 => -2032 (12bits)
+        addi t0, x0, 0xFF0 # Update t0 = 0x(FFFF F)FF0 => (12bits) 0xFF0
         SW t0, 8(a0)     # Store t0 (32bits) in a2, a2 = 0xFFFF FFF0
         SB t0, 12(a0)    # Store t0 (8bits) in a3, a3 = 0x0000 00F0
         LBU a1, 12(a0)   # Load a3 to a1 (unsigned, 8bits), a1 = 0x0000 00F0
