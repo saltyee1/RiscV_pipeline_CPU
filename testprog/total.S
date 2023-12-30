@@ -116,7 +116,8 @@ Basic:
         SRA t2, t0, t1 # t2 = 1
         OR t2, t0, t1 # t2 = 3
         AND t2, t0, t1 # t2 = 0
-        JAL EXIT
+        # JAL EXIT
+        JAL Fibo
 
     Excep:
         addi t0, x0, 15
@@ -144,6 +145,7 @@ Fibo:
     # li a1, 0       # System call number for exit
     # li a0, 0        # Exit code 0
     # ecall
+    jal Multi
 
     # Recursive Fibonacci function
     # Parameters: a0 = memory address to store result, a1 = number of Fibonacci numbers,
@@ -195,6 +197,7 @@ Multi:
     # li a1, 0       # System call number for exit
     # li a0, 0        # Exit code 0
     # ecall
+    jal Sort
 
     # Recursive Fibonacci function
     # Parameters: a0 = memory address to store result, a1 = number of Fibonacci numbers,
