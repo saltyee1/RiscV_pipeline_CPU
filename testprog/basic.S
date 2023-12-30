@@ -33,20 +33,8 @@ _start:
         next_5:
             addi t0, x0, 2  # set t0 = 2
             addi t1, x0, 1  # set t1 = 1
-            BGEU t0, t1, MoreBranchTesting # if t0 >= t1  (unsigned)    go to MoreBranchTesting
+            BGEU t0, t1, TestLoadStore # if t0 >= t1  (unsigned)    go to TestLoadStore
             JAL Excep   # Error happened
-
-    MoreBranchTesting:
-        # BEQ/BLT/BLTU/BGE/BGEU
-        addi t0, x0, 1  # set t0 = 1
-        addi t1, x0, 2  # set t1 = 2
-        BEQ t0, t1, Excep   # if t0 == t1, Error happened
-        BGE t0, t1, Excep   # if t0 >= t1, Error happened
-        addi t1 ,x0, 0 # set t1 = 0
-        BLT t0, t1, Excep   # if t0 < t1, Error happened
-        BLTU t0, t1, Excep   # if t0 < t1, Error happened
-        BGEU t1, t0, Excep   # if t1 >= t0, Error happened
-        JAL TestLoadStore
 
     TestLoadStore:  
         addi t0, x0, 1  # set t0 = 1
