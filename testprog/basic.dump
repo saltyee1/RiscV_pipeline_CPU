@@ -1,0 +1,119 @@
+
+basic.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	00100293          	addi	t0,zero,1
+   4:	00552023          	sw	t0,0(a0)
+   8:	00200313          	addi	t1,zero,2
+   c:	00652223          	sw	t1,4(a0)
+
+00000010 <TestBranches>:
+  10:	00629463          	bne	t0,t1,18 <next_1>
+  14:	134000ef          	jal	ra,148 <Excep>
+
+00000018 <next_1>:
+  18:	00c00293          	addi	t0,zero,12
+  1c:	00c00313          	addi	t1,zero,12
+  20:	00628463          	beq	t0,t1,28 <next_2>
+  24:	124000ef          	jal	ra,148 <Excep>
+
+00000028 <next_2>:
+  28:	fff00293          	addi	t0,zero,-1
+  2c:	00200313          	addi	t1,zero,2
+  30:	0062c463          	blt	t0,t1,38 <next_3>
+  34:	114000ef          	jal	ra,148 <Excep>
+
+00000038 <next_3>:
+  38:	00200293          	addi	t0,zero,2
+  3c:	fff00313          	addi	t1,zero,-1
+  40:	0062d463          	bge	t0,t1,48 <next_4>
+  44:	104000ef          	jal	ra,148 <Excep>
+
+00000048 <next_4>:
+  48:	00100293          	addi	t0,zero,1
+  4c:	00200313          	addi	t1,zero,2
+  50:	0062e463          	bltu	t0,t1,58 <next_5>
+  54:	0f4000ef          	jal	ra,148 <Excep>
+
+00000058 <next_5>:
+  58:	00200293          	addi	t0,zero,2
+  5c:	00100313          	addi	t1,zero,1
+  60:	0062f463          	bgeu	t0,t1,68 <TestLoadStore>
+  64:	0e4000ef          	jal	ra,148 <Excep>
+
+00000068 <TestLoadStore>:
+  68:	00100293          	addi	t0,zero,1
+  6c:	00552023          	sw	t0,0(a0)
+  70:	00552623          	sw	t0,12(a0)
+  74:	80100293          	addi	t0,zero,-2047
+  78:	00552023          	sw	t0,0(a0)
+  7c:	00c52503          	lw	a0,12(a0)
+  80:	0c550463          	beq	a0,t0,148 <Excep>
+  84:	00000293          	addi	t0,zero,0
+  88:	00552623          	sw	t0,12(a0)
+  8c:	80100293          	addi	t0,zero,-2047
+  90:	00552423          	sw	t0,8(a0)
+  94:	00551623          	sh	t0,12(a0)
+  98:	00c51503          	lh	a0,12(a0)
+  9c:	00c55583          	lhu	a1,12(a0)
+  a0:	0ac59463          	bne	a1,a2,148 <Excep>
+  a4:	0ac50263          	beq	a0,a2,148 <Excep>
+  a8:	00000293          	addi	t0,zero,0
+  ac:	00552623          	sw	t0,12(a0)
+  b0:	81000293          	addi	t0,zero,-2032
+  b4:	00552423          	sw	t0,8(a0)
+  b8:	00550623          	sb	t0,12(a0)
+  bc:	00c50503          	lb	a0,12(a0)
+  c0:	00c54583          	lbu	a1,12(a0)
+  c4:	08c59263          	bne	a1,a2,148 <Excep>
+  c8:	08c50063          	beq	a0,a2,148 <Excep>
+
+000000cc <TestJumps>:
+  cc:	00004517          	auipc	a0,0x4
+  d0:	00000013          	addi	zero,zero,0
+  d4:	00450567          	jalr	a0,4(a0) # 40d0 <bss_end+0x3f70>
+  d8:	00000013          	addi	zero,zero,0
+  dc:	004000ef          	jal	ra,e0 <TestComputationalInstructions>
+
+000000e0 <TestComputationalInstructions>:
+  e0:	ffff0537          	lui	a0,0xffff0
+  e4:	00155513          	srli	a0,a0,0x1
+  e8:	00151513          	slli	a0,a0,0x1
+  ec:	40155513          	srai	a0,a0,0x1
+  f0:	fff00293          	addi	t0,zero,-1
+  f4:	0002a313          	slti	t1,t0,0
+  f8:	0002b313          	sltiu	t1,t0,0
+  fc:	00000293          	addi	t0,zero,0
+ 100:	0002c313          	xori	t1,t0,0
+ 104:	0012e313          	ori	t1,t0,1
+ 108:	8012f313          	andi	t1,t0,-2047
+ 10c:	00029313          	slli	t1,t0,0x0
+
+00000110 <TestReg_Reg>:
+ 110:	00200293          	addi	t0,zero,2
+ 114:	00100313          	addi	t1,zero,1
+ 118:	006283b3          	add	t2,t0,t1
+ 11c:	406283b3          	sub	t2,t0,t1
+ 120:	006293b3          	sll	t2,t0,t1
+ 124:	0062a3b3          	slt	t2,t0,t1
+ 128:	fff00313          	addi	t1,zero,-1
+ 12c:	0062b3b3          	sltu	t2,t0,t1
+ 130:	00100313          	addi	t1,zero,1
+ 134:	0062c3b3          	xor	t2,t0,t1
+ 138:	0062d3b3          	srl	t2,t0,t1
+ 13c:	4062d3b3          	sra	t2,t0,t1
+ 140:	0062e3b3          	or	t2,t0,t1
+ 144:	0062f3b3          	and	t2,t0,t1
+
+00000148 <Excep>:
+ 148:	00f00293          	addi	t0,zero,15
+ 14c:	00f00313          	addi	t1,zero,15
+ 150:	004000ef          	jal	ra,154 <EXIT>
+
+00000154 <EXIT>:
+ 154:	00000513          	addi	a0,zero,0
+ 158:	00000593          	addi	a1,zero,0
+ 15c:	00000073          	ecall
