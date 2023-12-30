@@ -1,83 +1,124 @@
-/**
- * This file contains a basic assembly program for testing instructions.
- */
-
 .section .text
 .global _start
 _start:
+    # Start program
+    addi t0, x0, 1
+    sw t0, 0(a0)
+    addi t1, x0, 2
+    sw t1, 4(a0)
 
-    // Start program
-    LI t0, 0x01 
-    LI t1, 0x02
+    TestBranches:
+        BNE t0, t1, next_1
+        JAL Excep
+        next_1:
+            addi t0, x0, 12
+            addi t1, x0, 12
+            BEQ t0, t1, next_2  # if t0 == t1
+            JAL Excep
+        next_2:
+            addi t0, x0, -1
+            addi t1, x0, 2
+            BLT t0, t1, next_3  # if t0 < t1 (signed)
+            JAL Excep
+        next_3:
+            addi t0, x0, 2
+            addi t1, x0, -1
+            BGE t0, t1, next_4  # if t0 >= t1 (signed)
+            JAL Excep
+        next_4:
+            addi t0, x0, 1
+            addi t1, x0, 2
+            BLTU t0, t1, next_5 # if t0 < t1 (unsigned)
+            JAL Excep
+        next_5:
+            addi t0, x0, 2
+            addi t1, x0, 1
+            BGEU t0, t1, TestLoadStore # if t0 >= t1  (unsigned)
+            JAL Excep
 
-    // Test Branches
-    BEQ t0, t1, 0x0000
-    BNE t0, t1, 0x0000
-    BLT t0, t1, 0x0000
-    BGE t0, t1, 0x0000
-    BLTU t0, t1, 0x0000
-    BGEU t0, t1, 0x0000
+    TestLoadStore:
+        addi t0, x0, 1
+        sw t0, 0(a0)
+        
+        # SW
+        sw t0, 12(a0)   # Store t0 to a3, a3 = 0x0000 0001
+        addi t0, x0, 4095 # Update t0 = 0xFFFF FFFF
+        sw t0, 0(a0)    # Store t0 in a0, t0 = 0xFFFF FFFF
+        lw a0, 12(a0)    # Load t0 to a0, a0 = 0x0000 0001
+        BEQ a0, t0, Excep   
 
-    // Test Load/Store
-    LB t1, 0x0000(t0)
-    LH t1, 0x0000(t0)
-    LW t1, 0x0000(t0)
-    LBU t1, 0x0000(t0)
-    LHU t1, 0x0000(t0)
-    SB t1, 0x0000(t0)
-    SH t1, 0x0000(t0)
-    SW t1, 0x0000(t0)
+        # SH
+        addi t0, x0, 0  # initialize mem
+        sw t0, 12(a0)
 
-    // Test Jump and Link
-    JAL t1, 0x0000
-    JALR t1, t0, 0x0000
+        addi t0, x0, 4095
+        SW t0, 8(a0)        # Store t0 in a2
+        SH t0, 12(a0)    # Store t0 (0xFFFF), mem = 0x0000 FFFF
+        LH a0, 12(a0)    # Load t0 to a0 (signed, 16bits), a0 = 0xFFFF FFFF
+        LHU a1, 12(a0)   # Load t0 to a1 (unsigned, 16bits), a1 = 0x0000 FFFF
+        BNE a1, a2, Excep
+        BEQ a0, a2, Excep
 
-    // Test Computational Instructions
-    LUI t1, 0x0000
-    AUIPC t1, 0x0000
+        # SB
+        addi t0, x0, 0 # initialize mem
+        sw t0, 12(a0)
 
-    // Test Immediate Instructions
-    ADDI t1, t0, 0x0000
-    SLTI t1, t0, 0x0000
-    SLTIU t1, t0, 0x0000
-    XORI t1, t0, 0x0000
-    ORI t1, t0, 0x0000 
-    ANDI t1, t0, 0x0000
-    SLLI t1, t0, 0x0000
-    SRLI t1, t0, 0x0000
-    SRAI t1, t0, 0x0000
-
-    // Test Register-Register Instructions
-    ADD t1, t0, t0
-    SUB t1, t0, t0
-    SLL t1, t0, t0
-    SLT t1, t0, t0
-    SLTU t1, t0, t0
-    XOR t1, t0, t0
-    SRL t1, t0, t0
-    SRA t1, t0, t0
-    OR t1, t0, t0
-    AND t1, t0, t0
-
-    // Exit program
-    li a1, 0        
-    li a0, 0   
-    ecall           
-
-
+        addi t0, x0, 4080 # 0xFF0
+        SW t0, 8(a0)        # Store t0 in a2, a2 = 0xFFFF FFF0
+        SB t0, 12(a0)    # Store t0 (0xF0), mem = 0x0000 00F0
+        LB a0, 12(a0)    # Load t0 to a0 (signed, 8bits), a0 = 0xFFFF FFF0
+        LBU a1, 12(a0)   # Load t0 to a1 (unsigned, 8bits), a1 = 0x0000 00F0
+        BNE a1, a2, Excep
+        BEQ a0, a2, Excep
+        
     
-    // Branch to #0x8000 if t0 == t1
-    // li t0, 0x01
-    // li t1, 0x01
-    // beq t0, t1, 0x8000
+    TestJumps:
+        AUIPC a0, 4
+        addi x0, x0, 0 # NOP
+        JALR a0, a0, 4
+        addi x0, x0, 0 # NOP
+        JAL TestJumps_1
+    TestJumps_1:
+        AUIPC a0, 0
+    
+    TestComputationalInstructions:
+        LUI a0, 1048575 # a0 = 0xFFFFF000
+        SRLI a0, a0, 1 # a0 = 0x7FFFF800
+        SLLI a0, a0, 1 # a0 = 0xFFFFF000
+        SRAI a0, a0, 1 # a0 = 0xFFFFF800
 
-    // Set the instruction at 0x8000 to "li t0, 0x03"
-    // li t0, 0x03 <= wrong, should be instruction instead of data
-    // li t1, 0x8000
-    // sw t0, 0x0000(t1)
-    //li t0, 0x12345678  // 將 32 位的數據 0x12345678 加載到 t0 暫存器中
-    //li t1, 0x8000      // 將記憶體地址 0x8000 加載到 t1 暫存器中
-    //sw t0, 0(t1)       // 將 t0 暫存器中的數據存儲到 t1 暫存器指向的記憶體地址中
+        ADDI t0, x0, -1 # t0 = -1
+        SLTI t1, t0, 0 # t0 < 0x0000, t1 = 0x0001
+        SLTIU t1, t0, 0 # t0 > 0x0000, t1 = 0x0000
+        ADDI t0, x0, 0 # t0 = 0
+        XORI t1, t0, 0 # t0 ^ 0x0000, t1 = 0x1111
+        ORI t1, t0, 1 # t0 | 0x001, t1 = 0x0001
+        ANDI t1, t0, 4095 # t0 & 1...1, t1 = 0x0000
+        SLLI t1, t0, 0 # t0 << 0x000, t1 = 0x0000
+    
+    TestReg_Reg:
+        ADDI t0, x0, 2 # t0 = 2
+        ADDI t1, x0, 1 # t1 = 1
+        ADD t2, t0, t1 # t2 = 3
+        SUB t2, t0, t1 # t2 = 1
+        SLL t2, t0, t1 # t2 = 4
+        SLT t2, t0, t1 # t0 >= t1, t2 = 0
+        ADDI t1, x0, -1 # t1 = -1
+        SLTU t2, t0, t1 # t0 < t1, t2 = 1
+        ADDI t1, x0, 1 # t1 = 1
+        XOR t2, t0, t1 # t2 = 3
+        SRL t2, t0, t1 # t2 = 1
+        SRA t2, t0, t1 # t2 = 1
+        OR t2, t0, t1 # t2 = 3
+        AND t2, t0, t1 # t2 = 0
 
+    Excep:
+        addi t0, x0, 15
+        addi t1, x0, 15
+        JAL EXIT
 
+    EXIT:
+        addi a0, x0, 0
+        addi a1, x0, 0
+        ecall      
 
