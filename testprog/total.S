@@ -99,7 +99,6 @@ Basic:
         XORI t1, t0, 0 # t0 ^ 0x0000, t1 = 0x1111
         ORI t1, t0, 1 # t0 | 0x001, t1 = 0x0001
         ANDI t1, t0, -2047 # t0 & 1...1, t1 = 0x0000
-        SLLI t1, t0, 0 # t0 << 0x000, t1 = 0x0000
     
     TestReg_Reg:
         ADDI t0, x0, 2 # t0 = 2
@@ -181,6 +180,8 @@ Fibo:
 Multi:
     li a0, 0
     lui sp, 8 #sp = 0x8000
+
+
     li a1, 1
     li a2, -1
     mul a1, a1, a2
@@ -197,6 +198,27 @@ Multi:
     mulh a1, a1, a2
     mulhu a1, a1, a2
 
+    li a1, 1
+    li a2, 1
+    li t0, 3
+    addi a3, zero, 20
+Multi3_loop:
+    mul a5, a1, a2
+    mul a1, a1, t0
+    mul a2, a2, t0
+    addi a3, a3, -1
+    bne a3, zero, Multi3_loop
+
+    li a1, 1
+    li a2, 1
+    li t0, 2
+    addi a3, zero, 30
+Multi2_loop:
+    mul a5, a1, a2
+    mul a1, a1, t0
+    mul a2, a2, t0
+    addi a3, a3, -1
+    bne a3, zero, Multi2_loop
 
     # Load initial parameters for Fibonacci calculation
     li a1, 10       # Number of Fibonacci numbers to calculate
@@ -343,6 +365,6 @@ EXIT:
     addi a3, zero, 0
     ecall      # Exit program
 
-##at 0000f 7f0
+##at 0000f7f0
 EXIT_HIGH :
     ecall      # Exit program
