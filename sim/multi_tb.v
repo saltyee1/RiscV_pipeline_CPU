@@ -3,7 +3,7 @@
 
 `define PROG_PATH "../testprog/multi.hex"
 `define memptint_base_addr 0
-`define memptint_counts 9
+`define memptint_counts 7
 
 module tb_Top;
 reg clk;
@@ -62,9 +62,9 @@ initial begin
     $readmemh(`PROG_PATH, dm.mem);
 end
 
-always@(print_flag) begin
-	$display("%c", top.regfile.regFile[11]);
-end
+// always@(print_flag) begin
+// 	$display("%c", top.regfile.regFile[11]);
+// end
 integer i;
 initial begin
     clk = 1;rst = 0;
