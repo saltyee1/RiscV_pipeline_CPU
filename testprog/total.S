@@ -99,7 +99,6 @@ Basic:
         XORI t1, t0, 0 # t0 ^ 0x0000, t1 = 0x1111
         ORI t1, t0, 1 # t0 | 0x001, t1 = 0x0001
         ANDI t1, t0, -2047 # t0 & 1...1, t1 = 0x0000
-        SLLI t1, t0, 0 # t0 << 0x000, t1 = 0x0000
     
     TestReg_Reg:
         ADDI t0, x0, 2 # t0 = 2
@@ -197,6 +196,18 @@ Multi:
     mulh a1, a1, a2
     mulhu a1, a1, a2
 
+    #  High Bits Multiplication
+    addi a0, x0, -1 # a0 = 0xFFFF FFFF
+    addi a1, x0, 0 # a1 = 0x0000 0000
+    cycle_1:
+        mul a2, a1, a0 
+        mulh a2, a1, a0
+        mulhu a2, a1, a0  
+        addi a1, a1, 1
+        bne a0, a1, cycle_1
+        addi a0, a0, -1
+        addi a1, x0, 0
+        bne a0, x0, cycle_1
 
     # Load initial parameters for Fibonacci calculation
     li a1, 10       # Number of Fibonacci numbers to calculate
