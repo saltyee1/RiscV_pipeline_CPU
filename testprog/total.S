@@ -206,21 +206,29 @@ Multi:
     #        mulhu a2, i, j
     #    }
     #}
-    addi a0, zero, 0
-    addi a1, zero, 0
-    addi t0, zero, -1
+    addi a0, x0, -256
+    addi a1, x0, -256
+    addi t0, x0, 255
+    SLLI t1, a0, 24
+    SLLI t2, a1, 24
     block_start:
-        beq a0, t0, block_end
+        bge a0, t0, block_end   # >= t0
         block2_start:
             bge a1, t0, block2_end
-            mul a2, a0, a1
-            mulh a2, a0, a1
-            mulhu a2, a0, a1
+            mul a2, t1, t2
+            mulh a2, t1, t2
+            mulhu a2, t1, t2
             addi a1, a1, 1
+            SLLI t2, a1, 24
+            j block2_start
         block2_end:
+            addi a1, zero, -256
             addi a0, a0, 1
+            SLLI t1, a0, 24
+            j block_start
     block_end:
         addi x0, x0, 0
+    # 68% total toggle, for 8bits
 
 
 
