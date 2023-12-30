@@ -181,6 +181,22 @@ Fibo:
 Multi:
     li a0, 0
     lui sp, 8 #sp = 0x8000
+    li a1, 1
+    li a2, -1
+    mul a1, a1, a2
+    mulh a1, a1, a2
+    mulhu a1, a1, a2
+    li a1, 0
+    li a2, 0
+    mul a1, a1, a2
+    lui a1, 0x0ffff
+    addi a1, a1, 0x0ff
+    lui a2, 0x0ffff
+    addi a2, a1, 0x0ff
+    mul a1, a1, a2
+    mulh a1, a1, a2
+    mulhu a1, a1, a2
+
 
     # Load initial parameters for Fibonacci calculation
     li a1, 10       # Number of Fibonacci numbers to calculate
@@ -320,4 +336,13 @@ Sort:
 EXIT:
     addi a0, x0, 0
     addi a1, x0, 0
+    lui a2, 0x0000f
+    jalr a2, 0x7f0
+    addi a3, zero, 0
+    addi a3, zero, 0
+    addi a3, zero, 0
+    ecall      # Exit program
+
+##at 0000f 7f0
+EXIT_HIGH :
     ecall      # Exit program
