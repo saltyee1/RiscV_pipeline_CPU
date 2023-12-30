@@ -198,6 +198,32 @@ Multi:
     mulh a1, a1, a2
     mulhu a1, a1, a2
 
+    # high bits multiple
+    #for (i = 0x0000 0000, i < 0xFFFF FFFF, i++){
+    #    for (j = 0x0000 0000, j < 0xFFFF FFFF, j++){
+    #        mul a2, i, j
+    #        mulh a2, i, j
+    #        mulhu a2, i, j
+    #    }
+    #}
+    addi a0, zero, 0
+    addi a1, zero, 0
+    addi t0, zero, -1
+    block_start:
+        beq a0, t0, block_end
+        block2_start:
+            bge a1, t0, block2_end
+            mul a2, a0, a1
+            mulh a2, a0, a1
+            mulhu a2, a0, a1
+            addi a1, a1, 1
+        block2_end:
+            addi a0, a0, 1
+    block_end:
+        addi x0, x0, 0
+
+
+
     li a1, 1
     li a2, 1
     li t0, 3
