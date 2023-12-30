@@ -196,21 +196,18 @@ Multi:
     mulh a1, a1, a2
     mulhu a1, a1, a2
 
-    # High Bits Multiplication
-    li t0, -1 # t0 = 0xFFFF FFFF
-    li t1, 0 # t1 = 0x0000 0000
+    #  High Bits Multiplication
+    addi a0, x0, -1 # a0 = 0xFFFF FFFF
+    addi a1, x0, 0 # a1 = 0x0000 0000
     cycle_1:
-        SLLI a0, t0, 16
-        SLLI a1, t1, 16
-        MUL a2, a1, a0 
-        MULH a2, a1, a0
-        MULHU a2, a1, a0  
-        ADDI t1, t1, 1
-        BNE a0, a1, cycle_1
-            ADDI t0, t0, -1
-            li t1, 0
-            BNE a0, x0, cycle_1
-
+        mul a2, a1, a0 
+        mulh a2, a1, a0
+        mulhu a2, a1, a0  
+        addi a1, a1, 1
+        bne a0, a1, cycle_1
+        addi a0, a0, -1
+        addi a1, x0, 0
+        bne a0, x0, cycle_1
 
     # Load initial parameters for Fibonacci calculation
     li a1, 10       # Number of Fibonacci numbers to calculate
