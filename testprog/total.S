@@ -180,6 +180,8 @@ Fibo:
 Multi:
     li a0, 0
     lui sp, 8 #sp = 0x8000
+
+
     li a1, 1
     li a2, -1
     mul a1, a1, a2
@@ -196,18 +198,27 @@ Multi:
     mulh a1, a1, a2
     mulhu a1, a1, a2
 
-    #  High Bits Multiplication
-    addi a0, x0, -1 # a0 = 0xFFFF FFFF
-    addi a1, x0, 0 # a1 = 0x0000 0000
-    cycle_1:
-        mul a2, a1, a0 
-        mulh a2, a1, a0
-        mulhu a2, a1, a0  
-        addi a1, a1, 1
-        bne a0, a1, cycle_1
-        addi a0, a0, -1
-        addi a1, x0, 0
-        bne a0, x0, cycle_1
+    li a1, 1
+    li a2, 1
+    li t0, 3
+    addi a3, zero, 20
+Multi3_loop:
+    mul a5, a1, a2
+    mul a1, a1, t0
+    mul a2, a2, t0
+    addi a3, a3, -1
+    bne a3, zero, Multi3_loop
+
+    li a1, 1
+    li a2, 1
+    li t0, 2
+    addi a3, zero, 30
+Multi2_loop:
+    mul a5, a1, a2
+    mul a1, a1, t0
+    mul a2, a2, t0
+    addi a3, a3, -1
+    bne a3, zero, Multi2_loop
 
     # Load initial parameters for Fibonacci calculation
     li a1, 10       # Number of Fibonacci numbers to calculate
@@ -354,6 +365,6 @@ EXIT:
     addi a3, zero, 0
     ecall      # Exit program
 
-##at 0000f 7f0
+##at 0000f7f0
 EXIT_HIGH :
     ecall      # Exit program
