@@ -42,7 +42,7 @@ _start:
         
         # SW
         sw t0, 12(a0)   # Store t0 to a3, a3 = 0x0000 0001
-        addi t0, x0, 4095 # Update t0 = 0xFFFF FFFF
+        addi t0, x0, -2047 # Update t0 = 0xFFFF FFFF
         sw t0, 0(a0)    # Store t0 in a0, t0 = 0xFFFF FFFF
         lw a0, 12(a0)    # Load t0 to a0, a0 = 0x0000 0001
         BEQ a0, t0, Excep   
@@ -51,7 +51,7 @@ _start:
         addi t0, x0, 0  # initialize mem
         sw t0, 12(a0)
 
-        addi t0, x0, 4095
+        addi t0, x0, -2047
         SW t0, 8(a0)        # Store t0 in a2
         SH t0, 12(a0)    # Store t0 (0xFFFF), mem = 0x0000 FFFF
         LH a0, 12(a0)    # Load t0 to a0 (signed, 16bits), a0 = 0xFFFF FFFF
@@ -63,7 +63,7 @@ _start:
         addi t0, x0, 0 # initialize mem
         sw t0, 12(a0)
 
-        addi t0, x0, 4080 # 0xFF0
+        addi t0, x0, -2032 # 0xFF0
         SW t0, 8(a0)        # Store t0 in a2, a2 = 0xFFFF FFF0
         SB t0, 12(a0)    # Store t0 (0xF0), mem = 0x0000 00F0
         LB a0, 12(a0)    # Load t0 to a0 (signed, 8bits), a0 = 0xFFFF FFF0
@@ -71,18 +71,15 @@ _start:
         BNE a1, a2, Excep
         BEQ a0, a2, Excep
         
-    
     TestJumps:
         AUIPC a0, 4
         addi x0, x0, 0 # NOP
         JALR a0, a0, 4
         addi x0, x0, 0 # NOP
-        JAL TestJumps_1
-    TestJumps_1:
-        AUIPC a0, 0
+        JAL TestComputationalInstructions
     
     TestComputationalInstructions:
-        LUI a0, 1048575 # a0 = 0xFFFFF000
+        LUI a0, 1048560 # a0 = 0xFFF FFFF0
         SRLI a0, a0, 1 # a0 = 0x7FFFF800
         SLLI a0, a0, 1 # a0 = 0xFFFFF000
         SRAI a0, a0, 1 # a0 = 0xFFFFF800
@@ -93,7 +90,7 @@ _start:
         ADDI t0, x0, 0 # t0 = 0
         XORI t1, t0, 0 # t0 ^ 0x0000, t1 = 0x1111
         ORI t1, t0, 1 # t0 | 0x001, t1 = 0x0001
-        ANDI t1, t0, 4095 # t0 & 1...1, t1 = 0x0000
+        ANDI t1, t0, -2047 # t0 & 1...1, t1 = 0x0000
         SLLI t1, t0, 0 # t0 << 0x000, t1 = 0x0000
     
     TestReg_Reg:
@@ -120,5 +117,4 @@ _start:
     EXIT:
         addi a0, x0, 0
         addi a1, x0, 0
-        ecall      
-
+        ecall      # Exit program
