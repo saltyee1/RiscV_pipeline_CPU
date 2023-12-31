@@ -198,6 +198,40 @@ Multi:
     mulh a1, a1, a2
     mulhu a1, a1, a2
 
+    # high bits multiple
+    #for (i = 0x0000 0000, i < 0xFFFF FFFF, i++){
+    #    for (j = 0x0000 0000, j < 0xFFFF FFFF, j++){
+    #        mul a2, i, j
+    #        mulh a2, i, j
+    #        mulhu a2, i, j
+    #    }
+    #}
+    addi a0, x0, -256
+    addi a1, x0, -256
+    addi t0, x0, 255
+    SLLI t1, a0, 24
+    SLLI t2, a1, 24
+    block_start:
+        bge a0, t0, block_end   # >= t0
+        block2_start:
+            bge a1, t0, block2_end
+            mul a2, t1, t2
+            mulh a2, t1, t2
+            mulhu a2, t1, t2
+            addi a1, a1, 1
+            SLLI t2, a1, 24
+            j block2_start
+        block2_end:
+            addi a1, zero, -256
+            addi a0, a0, 1
+            SLLI t1, a0, 24
+            j block_start
+    block_end:
+        addi x0, x0, 0
+    # 68% total toggle, for 8bits
+
+
+
     li a1, 1
     li a2, 1
     li t0, 3
