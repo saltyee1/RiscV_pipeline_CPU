@@ -230,8 +230,6 @@ Multi:
         addi x0, x0, 0
     # 68% total toggle, for 8bits
 
-
-
     li a1, 1
     li a2, 1
     li t0, 3
