@@ -117,7 +117,7 @@ Disassembly of section .text:
 00000160 <Excep>:
  160:	00f00293          	addi	t0,zero,15
  164:	00f00313          	addi	t1,zero,15
- 168:	220000ef          	jal	ra,388 <EXIT>
+ 168:	268000ef          	jal	ra,3d0 <EXIT>
 
 0000016c <Fibo>:
  16c:	00000513          	addi	a0,zero,0
@@ -138,7 +138,7 @@ Disassembly of section .text:
 0000019c <continue_fibonacci>:
  19c:	02d60733          	mul	a4,a2,a3
  1a0:	02d617b3          	mulh	a5,a2,a3
- 1a4:	00e52023          	sw	a4,0(a0) # fffff000 <bss_end+0xffffec54>
+ 1a4:	00e52023          	sw	a4,0(a0) # fffff000 <bss_end+0xffffec0c>
  1a8:	00f52223          	sw	a5,4(a0)
  1ac:	02660633          	mul	a2,a2,t1
  1b0:	025686b3          	mul	a3,a3,t0
@@ -158,141 +158,167 @@ Disassembly of section .text:
  1e0:	00000613          	addi	a2,zero,0
  1e4:	02c585b3          	mul	a1,a1,a2
  1e8:	0ffff5b7          	lui	a1,0xffff
- 1ec:	0ff58593          	addi	a1,a1,255 # ffff0ff <bss_end+0xfffed53>
+ 1ec:	0ff58593          	addi	a1,a1,255 # ffff0ff <bss_end+0xfffed0b>
  1f0:	0ffff637          	lui	a2,0xffff
  1f4:	0ff58613          	addi	a2,a1,255
  1f8:	02c585b3          	mul	a1,a1,a2
  1fc:	02c595b3          	mulh	a1,a1,a2
  200:	02c5b5b3          	mulhu	a1,a1,a2
- 204:	00100593          	addi	a1,zero,1
- 208:	00100613          	addi	a2,zero,1
- 20c:	00300293          	addi	t0,zero,3
- 210:	01400693          	addi	a3,zero,20
+ 204:	f0000513          	addi	a0,zero,-256
+ 208:	f0000593          	addi	a1,zero,-256
+ 20c:	0ff00293          	addi	t0,zero,255
+ 210:	01851313          	slli	t1,a0,0x18
+ 214:	01859393          	slli	t2,a1,0x18
 
-00000214 <Multi3_loop>:
- 214:	02c587b3          	mul	a5,a1,a2
- 218:	025585b3          	mul	a1,a1,t0
- 21c:	02560633          	mul	a2,a2,t0
- 220:	fff68693          	addi	a3,a3,-1
- 224:	fe0698e3          	bne	a3,zero,214 <Multi3_loop>
- 228:	00100593          	addi	a1,zero,1
- 22c:	00100613          	addi	a2,zero,1
- 230:	00200293          	addi	t0,zero,2
- 234:	01e00693          	addi	a3,zero,30
+00000218 <block_start>:
+ 218:	02555863          	bge	a0,t0,248 <block_end>
 
-00000238 <Multi2_loop>:
- 238:	02c587b3          	mul	a5,a1,a2
- 23c:	025585b3          	mul	a1,a1,t0
- 240:	02560633          	mul	a2,a2,t0
- 244:	fff68693          	addi	a3,a3,-1
- 248:	fe0698e3          	bne	a3,zero,238 <Multi2_loop>
- 24c:	00a00593          	addi	a1,zero,10
- 250:	00500613          	addi	a2,zero,5
- 254:	00500693          	addi	a3,zero,5
- 258:	00000793          	addi	a5,zero,0
- 25c:	00500293          	addi	t0,zero,5
- 260:	ffb00313          	addi	t1,zero,-5
- 264:	008000ef          	jal	ra,26c <fib1>
- 268:	030000ef          	jal	ra,298 <Sort>
+0000021c <block2_start>:
+ 21c:	0055de63          	bge	a1,t0,238 <block2_end>
+ 220:	02730633          	mul	a2,t1,t2
+ 224:	02731633          	mulh	a2,t1,t2
+ 228:	02733633          	mulhu	a2,t1,t2
+ 22c:	00158593          	addi	a1,a1,1
+ 230:	01859393          	slli	t2,a1,0x18
+ 234:	fe9ff06f          	jal	zero,21c <block2_start>
 
-0000026c <fib1>:
- 26c:	00059463          	bne	a1,zero,274 <continue_fibo>
- 270:	00008067          	jalr	zero,0(ra)
+00000238 <block2_end>:
+ 238:	f0000593          	addi	a1,zero,-256
+ 23c:	00150513          	addi	a0,a0,1
+ 240:	01851313          	slli	t1,a0,0x18
+ 244:	fd5ff06f          	jal	zero,218 <block_start>
 
-00000274 <continue_fibo>:
- 274:	02d60733          	mul	a4,a2,a3
- 278:	02d617b3          	mulh	a5,a2,a3
- 27c:	00e52023          	sw	a4,0(a0)
- 280:	00f52223          	sw	a5,4(a0)
- 284:	02660633          	mul	a2,a2,t1
- 288:	025686b3          	mul	a3,a3,t0
- 28c:	00850513          	addi	a0,a0,8
- 290:	fff58593          	addi	a1,a1,-1
- 294:	fd9ff06f          	jal	zero,26c <fib1>
+00000248 <block_end>:
+ 248:	00000013          	addi	zero,zero,0
+ 24c:	00100593          	addi	a1,zero,1
+ 250:	00100613          	addi	a2,zero,1
+ 254:	00300293          	addi	t0,zero,3
+ 258:	01400693          	addi	a3,zero,20
 
-00000298 <Sort>:
- 298:	00001137          	lui	sp,0x1
- 29c:	00010113          	addi	sp,sp,0 # 1000 <bss_end+0xc54>
- 2a0:	00000513          	addi	a0,zero,0
- 2a4:	00100293          	addi	t0,zero,1
- 2a8:	00552023          	sw	t0,0(a0)
- 2ac:	00500293          	addi	t0,zero,5
- 2b0:	00552223          	sw	t0,4(a0)
- 2b4:	00300293          	addi	t0,zero,3
- 2b8:	00552423          	sw	t0,8(a0)
- 2bc:	00400293          	addi	t0,zero,4
- 2c0:	00552623          	sw	t0,12(a0)
- 2c4:	00a00293          	addi	t0,zero,10
- 2c8:	00552823          	sw	t0,16(a0)
- 2cc:	01600293          	addi	t0,zero,22
- 2d0:	00552a23          	sw	t0,20(a0)
- 2d4:	00200293          	addi	t0,zero,2
- 2d8:	00552c23          	sw	t0,24(a0)
- 2dc:	00300293          	addi	t0,zero,3
- 2e0:	00552e23          	sw	t0,28(a0)
- 2e4:	02c00293          	addi	t0,zero,44
- 2e8:	02552023          	sw	t0,32(a0)
- 2ec:	00900593          	addi	a1,zero,9
- 2f0:	008000ef          	jal	ra,2f8 <SEL_SORT>
- 2f4:	094000ef          	jal	ra,388 <EXIT>
+0000025c <Multi3_loop>:
+ 25c:	02c587b3          	mul	a5,a1,a2
+ 260:	025585b3          	mul	a1,a1,t0
+ 264:	02560633          	mul	a2,a2,t0
+ 268:	fff68693          	addi	a3,a3,-1
+ 26c:	fe0698e3          	bne	a3,zero,25c <Multi3_loop>
+ 270:	00100593          	addi	a1,zero,1
+ 274:	00100613          	addi	a2,zero,1
+ 278:	00200293          	addi	t0,zero,2
+ 27c:	01e00693          	addi	a3,zero,30
 
-000002f8 <SEL_SORT>:
- 2f8:	ff810113          	addi	sp,sp,-8
- 2fc:	00112223          	sw	ra,4(sp)
- 300:	00812023          	sw	s0,0(sp)
- 304:	00000293          	addi	t0,zero,0
- 308:	00000313          	addi	t1,zero,0
- 30c:	00000393          	addi	t2,zero,0
- 310:	00058413          	addi	s0,a1,0
- 314:	fff58593          	addi	a1,a1,-1
+00000280 <Multi2_loop>:
+ 280:	02c587b3          	mul	a5,a1,a2
+ 284:	025585b3          	mul	a1,a1,t0
+ 288:	02560633          	mul	a2,a2,t0
+ 28c:	fff68693          	addi	a3,a3,-1
+ 290:	fe0698e3          	bne	a3,zero,280 <Multi2_loop>
+ 294:	00a00593          	addi	a1,zero,10
+ 298:	00500613          	addi	a2,zero,5
+ 29c:	00500693          	addi	a3,zero,5
+ 2a0:	00000793          	addi	a5,zero,0
+ 2a4:	00500293          	addi	t0,zero,5
+ 2a8:	ffb00313          	addi	t1,zero,-5
+ 2ac:	008000ef          	jal	ra,2b4 <fib1>
+ 2b0:	030000ef          	jal	ra,2e0 <Sort>
 
-00000318 <UNSORTED_ARRAY_BOUNDARY_LOOP>:
- 318:	06b28063          	beq	t0,a1,378 <END_UNSORTED_ARRAY_BOUNDARY_LOOP>
- 31c:	00028393          	addi	t2,t0,0
- 320:	00128313          	addi	t1,t0,1
+000002b4 <fib1>:
+ 2b4:	00059463          	bne	a1,zero,2bc <continue_fibo>
+ 2b8:	00008067          	jalr	zero,0(ra)
 
-00000324 <SUBARRAY_LOOP>:
- 324:	02830663          	beq	t1,s0,350 <END_SUBARRAY_LOOP>
- 328:	00231f13          	slli	t5,t1,0x2
- 32c:	01e50fb3          	add	t6,a0,t5
- 330:	000fae83          	lw	t4,0(t6)
- 334:	00239f13          	slli	t5,t2,0x2
- 338:	01e50fb3          	add	t6,a0,t5
- 33c:	000fae03          	lw	t3,0(t6)
- 340:	01de4463          	blt	t3,t4,348 <MIN_REMAINS_SAME>
- 344:	00030393          	addi	t2,t1,0
+000002bc <continue_fibo>:
+ 2bc:	02d60733          	mul	a4,a2,a3
+ 2c0:	02d617b3          	mulh	a5,a2,a3
+ 2c4:	00e52023          	sw	a4,0(a0)
+ 2c8:	00f52223          	sw	a5,4(a0)
+ 2cc:	02660633          	mul	a2,a2,t1
+ 2d0:	025686b3          	mul	a3,a3,t0
+ 2d4:	00850513          	addi	a0,a0,8
+ 2d8:	fff58593          	addi	a1,a1,-1
+ 2dc:	fd9ff06f          	jal	zero,2b4 <fib1>
 
-00000348 <MIN_REMAINS_SAME>:
- 348:	00130313          	addi	t1,t1,1
- 34c:	fc000ce3          	beq	zero,zero,324 <SUBARRAY_LOOP>
+000002e0 <Sort>:
+ 2e0:	00001137          	lui	sp,0x1
+ 2e4:	00010113          	addi	sp,sp,0 # 1000 <bss_end+0xc0c>
+ 2e8:	00000513          	addi	a0,zero,0
+ 2ec:	00100293          	addi	t0,zero,1
+ 2f0:	00552023          	sw	t0,0(a0)
+ 2f4:	00500293          	addi	t0,zero,5
+ 2f8:	00552223          	sw	t0,4(a0)
+ 2fc:	00300293          	addi	t0,zero,3
+ 300:	00552423          	sw	t0,8(a0)
+ 304:	00400293          	addi	t0,zero,4
+ 308:	00552623          	sw	t0,12(a0)
+ 30c:	00a00293          	addi	t0,zero,10
+ 310:	00552823          	sw	t0,16(a0)
+ 314:	01600293          	addi	t0,zero,22
+ 318:	00552a23          	sw	t0,20(a0)
+ 31c:	00200293          	addi	t0,zero,2
+ 320:	00552c23          	sw	t0,24(a0)
+ 324:	00300293          	addi	t0,zero,3
+ 328:	00552e23          	sw	t0,28(a0)
+ 32c:	02c00293          	addi	t0,zero,44
+ 330:	02552023          	sw	t0,32(a0)
+ 334:	00900593          	addi	a1,zero,9
+ 338:	008000ef          	jal	ra,340 <SEL_SORT>
+ 33c:	094000ef          	jal	ra,3d0 <EXIT>
 
-00000350 <END_SUBARRAY_LOOP>:
- 350:	00239f13          	slli	t5,t2,0x2
- 354:	01e50fb3          	add	t6,a0,t5
- 358:	000fae03          	lw	t3,0(t6)
- 35c:	00229313          	slli	t1,t0,0x2
- 360:	00a30333          	add	t1,t1,a0
- 364:	00032e83          	lw	t4,0(t1)
- 368:	01c32023          	sw	t3,0(t1)
- 36c:	01dfa023          	sw	t4,0(t6)
- 370:	00128293          	addi	t0,t0,1
- 374:	fa0002e3          	beq	zero,zero,318 <UNSORTED_ARRAY_BOUNDARY_LOOP>
+00000340 <SEL_SORT>:
+ 340:	ff810113          	addi	sp,sp,-8
+ 344:	00112223          	sw	ra,4(sp)
+ 348:	00812023          	sw	s0,0(sp)
+ 34c:	00000293          	addi	t0,zero,0
+ 350:	00000313          	addi	t1,zero,0
+ 354:	00000393          	addi	t2,zero,0
+ 358:	00058413          	addi	s0,a1,0
+ 35c:	fff58593          	addi	a1,a1,-1
 
-00000378 <END_UNSORTED_ARRAY_BOUNDARY_LOOP>:
- 378:	00012403          	lw	s0,0(sp)
- 37c:	00412083          	lw	ra,4(sp)
- 380:	00810113          	addi	sp,sp,8
- 384:	00008067          	jalr	zero,0(ra)
+00000360 <UNSORTED_ARRAY_BOUNDARY_LOOP>:
+ 360:	06b28063          	beq	t0,a1,3c0 <END_UNSORTED_ARRAY_BOUNDARY_LOOP>
+ 364:	00028393          	addi	t2,t0,0
+ 368:	00128313          	addi	t1,t0,1
 
-00000388 <EXIT>:
- 388:	00000513          	addi	a0,zero,0
- 38c:	00000593          	addi	a1,zero,0
- 390:	0000f637          	lui	a2,0xf
- 394:	7f0600e7          	jalr	ra,2032(a2) # f7f0 <bss_end+0xf444>
- 398:	00000693          	addi	a3,zero,0
- 39c:	00000693          	addi	a3,zero,0
- 3a0:	00000693          	addi	a3,zero,0
- 3a4:	00000073          	ecall
+0000036c <SUBARRAY_LOOP>:
+ 36c:	02830663          	beq	t1,s0,398 <END_SUBARRAY_LOOP>
+ 370:	00231f13          	slli	t5,t1,0x2
+ 374:	01e50fb3          	add	t6,a0,t5
+ 378:	000fae83          	lw	t4,0(t6)
+ 37c:	00239f13          	slli	t5,t2,0x2
+ 380:	01e50fb3          	add	t6,a0,t5
+ 384:	000fae03          	lw	t3,0(t6)
+ 388:	01de4463          	blt	t3,t4,390 <MIN_REMAINS_SAME>
+ 38c:	00030393          	addi	t2,t1,0
 
-000003a8 <EXIT_HIGH>:
- 3a8:	00000073          	ecall
+00000390 <MIN_REMAINS_SAME>:
+ 390:	00130313          	addi	t1,t1,1
+ 394:	fc000ce3          	beq	zero,zero,36c <SUBARRAY_LOOP>
+
+00000398 <END_SUBARRAY_LOOP>:
+ 398:	00239f13          	slli	t5,t2,0x2
+ 39c:	01e50fb3          	add	t6,a0,t5
+ 3a0:	000fae03          	lw	t3,0(t6)
+ 3a4:	00229313          	slli	t1,t0,0x2
+ 3a8:	00a30333          	add	t1,t1,a0
+ 3ac:	00032e83          	lw	t4,0(t1)
+ 3b0:	01c32023          	sw	t3,0(t1)
+ 3b4:	01dfa023          	sw	t4,0(t6)
+ 3b8:	00128293          	addi	t0,t0,1
+ 3bc:	fa0002e3          	beq	zero,zero,360 <UNSORTED_ARRAY_BOUNDARY_LOOP>
+
+000003c0 <END_UNSORTED_ARRAY_BOUNDARY_LOOP>:
+ 3c0:	00012403          	lw	s0,0(sp)
+ 3c4:	00412083          	lw	ra,4(sp)
+ 3c8:	00810113          	addi	sp,sp,8
+ 3cc:	00008067          	jalr	zero,0(ra)
+
+000003d0 <EXIT>:
+ 3d0:	00000513          	addi	a0,zero,0
+ 3d4:	00000593          	addi	a1,zero,0
+ 3d8:	0000f637          	lui	a2,0xf
+ 3dc:	7f0600e7          	jalr	ra,2032(a2) # f7f0 <bss_end+0xf3fc>
+ 3e0:	00000693          	addi	a3,zero,0
+ 3e4:	00000693          	addi	a3,zero,0
+ 3e8:	00000693          	addi	a3,zero,0
+ 3ec:	00000073          	ecall
+
+000003f0 <EXIT_HIGH>:
+ 3f0:	00000073          	ecall

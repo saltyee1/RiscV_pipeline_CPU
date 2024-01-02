@@ -1,0 +1,3 @@
+riscv64-unknown-elf-gcc-march=rv32im -mabi=ilp32 -ffreestanding -nostdlib -static -T link.ld total.S -o total.elf
+riscv64-unknown-elf-objcopy -S test.elf -O verilog total.hex
+riscv64-unknown-elf-objdump -d -M no-aliases total.elf > total.dump
