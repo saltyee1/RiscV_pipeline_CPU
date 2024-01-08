@@ -1,5 +1,5 @@
 module RegFile (
-input clk,
+input clk, nclk,
 input rst,
 input wb_en,
 input ecall_sig,
@@ -41,35 +41,34 @@ wire reg14 = regFile[6];
 wire reg15 = regFile[6];
 wire reg61 = regFile[6];*/
 
+/*
 genvar I;
 generate
   	for (I = 0; I < 31; I = I + 1) begin : gen_regs
     	wire [31:0] reg_temp = regFile[I];
 	end
 endgenerate
-
-always@(negedge clk or negedge rst) begin
-    if (!rst) begin
+*/
+always@(posedge clk or posedge rst) begin
+    if (rst) begin
         print_flag = 1'b0;
         halt = 1'b0;
-    end
-    else if(ecall_sig) begin
+    end else if(ecall_sig) begin
 		print_flag = (print_en) ? 1'b1 : 1'b0;
         halt = (stop_flag) ? 1'b1 : 1'b0;
 	end
     else begin
 		print_flag = 1'b0;
         halt = 1'b0;
-	end
+    end
 end
 
 integer i;
 //Write
-always@(posedge clk or negedge rst) begin
-    if (!rst) begin
+always@(posedge nclk or posedge rst) begin
+    if (rst) begin
         for (i=0; i<=31; i=i+1) regFile[i] <= 32'b0;
-    end
-    else if (wb_en && rd_index != 5'b0) begin
+    end else if (wb_en && rd_index != 5'b0) begin
         regFile[rd_index] <= wb_data;
     end
     else regFile[rd_index] <= regFile[rd_index];

@@ -1,12 +1,21 @@
-`include "../rtl/Top.v"
+`timescale 1ns/1ps 
+`ifdef syn
+	`include "../syn/Top_syn.v"
+	`include "../syn/tsmc18.v"
+`else
+	`include "../rtl/Top.v"
+`endif
+
 `include "../rtl/SRAM.v"
 
 `define PROG_PATH "../testprog/multi.hex"
 `define memptint_base_addr 0
 `define memptint_counts 7
 
+
 module tb_Top;
 reg clk;
+reg nclk;
 reg rst;
 /*for im*/
 wire [31:0] inst;
@@ -24,6 +33,7 @@ wire print_flag;
 Top top(
     .rst (rst),
     .clk (clk),
+    .nclk (nclk),
 
     .inst (inst),
     .im_addr (im_addr),
@@ -54,21 +64,29 @@ SRAM im(
     .read_data (inst)
 );
 
+
+
 localparam CLK_PERIOD = 30;
 always #(CLK_PERIOD/2) clk=~clk;
+always #(CLK_PERIOD/2) nclk=~nclk;
 
 initial begin
     $readmemh(`PROG_PATH, im.mem);
     $readmemh(`PROG_PATH, dm.mem);
 end
 
-// always@(print_flag) begin
-// 	$display("%c", top.regfile.regFile[11]);
-// end
+`ifdef syn
+	initial $sdf_annotate("../syn/Top_syn.sdf", top);
+`endif
+/*
+always@(print_flag) begin
+	$display("%c", top.regfile.regFile[11]);
+end
+*/
 integer i;
 initial begin
-    clk = 1;rst = 0;
-    #5 rst=1;
+    clk = 0; nclk = 1; rst = 1;
+    #5 rst=0;
     // #(1000*CLK_PERIOD)
     // for (i=0; i<`memptint_counts; i=i+1 ) begin
     //     $display("mem[%d] : %d", (`memptint_base_addr+i*4), ({top.dm.mem[`memptint_base_addr+3+i*4], top.dm.mem[`memptint_base_addr+2+i*4], top.dm.mem[`memptint_base_addr+1+i*4], top.dm.mem[`memptint_base_addr+i*4]}));
@@ -85,7 +103,7 @@ initial begin
 end
 
 initial begin
-    $dumpfile("tn_multi.vcd");
+    $dumpfile("../wave/tb_multi.vcd");
     $dumpvars;
 	//$fsdbDumpMDA(2, top);
 end

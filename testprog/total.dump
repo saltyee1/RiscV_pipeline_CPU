@@ -164,9 +164,9 @@ Disassembly of section .text:
  1f8:	02c585b3          	mul	a1,a1,a2
  1fc:	02c595b3          	mulh	a1,a1,a2
  200:	02c5b5b3          	mulhu	a1,a1,a2
- 204:	f0000513          	addi	a0,zero,-256
- 208:	f0000593          	addi	a1,zero,-256
- 20c:	0ff00293          	addi	t0,zero,255
+ 204:	c0000513          	addi	a0,zero,-1024
+ 208:	c0000593          	addi	a1,zero,-1024
+ 20c:	3ff00293          	addi	t0,zero,1023
  210:	01851313          	slli	t1,a0,0x18
  214:	01859393          	slli	t2,a1,0x18
 
@@ -179,13 +179,13 @@ Disassembly of section .text:
  224:	02731633          	mulh	a2,t1,t2
  228:	02733633          	mulhu	a2,t1,t2
  22c:	00158593          	addi	a1,a1,1
- 230:	01859393          	slli	t2,a1,0x18
+ 230:	01659393          	slli	t2,a1,0x16
  234:	fe9ff06f          	jal	zero,21c <block2_start>
 
 00000238 <block2_end>:
- 238:	f0000593          	addi	a1,zero,-256
+ 238:	c0000593          	addi	a1,zero,-1024
  23c:	00150513          	addi	a0,a0,1
- 240:	01851313          	slli	t1,a0,0x18
+ 240:	01651313          	slli	t1,a0,0x16
  244:	fd5ff06f          	jal	zero,218 <block_start>
 
 00000248 <block_end>:

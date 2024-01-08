@@ -15,7 +15,7 @@ generate
 endgenerate
 //reg [7:0] mem [0:16384];
 //Write
-always@(negedge clk) begin
+always@(posedge clk) begin
     if(w_en[0]) 
         mem[address] <= write_data[7:0];
     if(w_en[1])

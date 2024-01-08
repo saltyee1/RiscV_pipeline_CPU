@@ -96,7 +96,7 @@ SRAM im(
     .read_data (inst)
 );
 
-localparam CLK_PERIOD = 30;
+localparam CLK_PERIOD = 30.0;
 always #(CLK_PERIOD/2) clk=~clk;
 always #(CLK_PERIOD/2) nclk = ~clk;
 
@@ -125,8 +125,8 @@ initial begin
     //     $display("mem[%d] : %d", (`memptint_base_addr+i*4), ({top.dm.mem[`memptint_base_addr+3+i*4], top.dm.mem[`memptint_base_addr+2+i*4], top.dm.mem[`memptint_base_addr+1+i*4], top.dm.mem[`memptint_base_addr+i*4]}));
     // end
 	//$finish;
-    //#(800*CLK_PERIOD);
-    // $finish;
+    //#(4096*CLK_PERIOD);
+    //finish;
     wait (halt)
         for (i=0; i<`memptint_counts; i=i+1 ) begin
             $display("mem[%d] : %d", (`memptint_base_addr+i*4), ({dm.mem[`memptint_base_addr+3+i*4], dm.mem[`memptint_base_addr+2+i*4], dm.mem[`memptint_base_addr+1+i*4], dm.mem[`memptint_base_addr+i*4]}));
@@ -157,8 +157,8 @@ end
 `endif
 `ifdef total
 	initial begin
-		$dumpfile("../wave/tb_Top_total.vcd");
-		$dumpvars;
+		//$dumpfile("../wave/tb_Top_total.vcd");
+		//$dumpvars;
 		//$fsdbDumpMDA(2, top);
 	end
 `endif

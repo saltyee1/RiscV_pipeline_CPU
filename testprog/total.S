@@ -206,9 +206,9 @@ Multi:
     #        mulhu a2, i, j
     #    }
     #}
-    addi a0, x0, -256
-    addi a1, x0, -256
-    addi t0, x0, 255
+    addi a0, x0, -1024
+    addi a1, x0, -1024
+    addi t0, x0, 1023
     SLLI t1, a0, 24
     SLLI t2, a1, 24
     block_start:
@@ -219,12 +219,12 @@ Multi:
             mulh a2, t1, t2
             mulhu a2, t1, t2
             addi a1, a1, 1
-            SLLI t2, a1, 24
+            SLLI t2, a1, 22
             j block2_start
         block2_end:
-            addi a1, zero, -256
+            addi a1, zero, -1024
             addi a0, a0, 1
-            SLLI t1, a0, 24
+            SLLI t1, a0, 22
             j block_start
     block_end:
         addi x0, x0, 0

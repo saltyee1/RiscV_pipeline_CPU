@@ -2,7 +2,7 @@
 module Controller (
     input [4:0] opcode,
     input [2:0] func3,
-    input       func7,
+    //input       func7,
     //input       alu_branch,
     //output next_pc_sel,
     output [3:0]im_w_en, 
@@ -23,25 +23,30 @@ always @(*) begin
     case (opcode)
         `STORE : begin 
             case (func3)
-                3'b000 : dm_w_en = 4'b0001; //SB
-                3'b001 : dm_w_en = 4'b0011; //SH
-                3'b010 : dm_w_en = 4'b1111; //SW
-                default : dm_w_en = 4'b0000;
+                3'b000  : dm_w_en = 4'b0001; //SB
+                3'b001  : dm_w_en = 4'b0011; //SH
+                default  : dm_w_en = 4'b1111; //SW (3'b010)             
+				//default : dm_w_en = 4'bXXXX;
             endcase
+			/*if (func3 == 3'b000)
+			
+			else if (func3 == 3'b001)
+			
+			else */ 
         end
-        default : dm_w_en = 4'b000;
+        default : dm_w_en = 4'b0000;
     endcase
 end
 
 always @(*) begin
     case (opcode)
-        `R_R : wb_en = 1'b1; //R_type
-        `R_I : wb_en = 1'b1;  //I_Type
-        `LOAD : wb_en = 1'b1;  //I_Type
-        `JALR : wb_en = 1'b1;  //I_Type
-        `LUI : wb_en = 1'b1;    //U_Type
-        `AUIPC : wb_en = 1'b1;    //U_Type
-        `JAL : wb_en = 1'b1;   //J_Type
+        `R_R    : wb_en = 1'b1; //R_type
+        `R_I    : wb_en = 1'b1;  //I_Type
+        `LOAD   : wb_en = 1'b1;  //I_Type
+        `JALR   : wb_en = 1'b1;  //I_Type
+        `LUI    : wb_en = 1'b1;    //U_Type
+        `AUIPC  : wb_en = 1'b1;    //U_Type
+        `JAL    : wb_en = 1'b1;   //J_Type
         default : wb_en = 1'b0; //else 0
     endcase
 end

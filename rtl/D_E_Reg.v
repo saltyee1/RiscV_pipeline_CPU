@@ -8,7 +8,7 @@ module D_E_Reg (
 	input [31:0] rs1_data,
 	input [31:0] rs2_data,
 	input [31:0] imm_out,
-	input [31:0] pc,
+	input [31:0] pc, 		// PC	
 	input guess,
 	/*control signal*/
 	input alu_src1_sel,
@@ -22,9 +22,9 @@ module D_E_Reg (
 	input wb_sel,
 	input wb_en,
 	
-	output reg[4:0] rs1_index_reg,
-	output reg[4:0] rs2_index_reg,
-	output reg[4:0] rd_index_reg,
+	output reg[ 4:0] rs1_index_reg,
+	output reg[ 4:0] rs2_index_reg,
+	output reg[ 4:0] rd_index_reg,
 	output reg[31:0] rs1_data_reg,
 	output reg[31:0] rs2_data_reg,
 	output reg[31:0] imm_out_reg,
@@ -43,35 +43,35 @@ module D_E_Reg (
 	output reg wb_en_reg			
 );
 
-always@(negedge clk or negedge rst) begin
-	if(!rst) begin
-		rs1_index_reg <= 5'b0;
-		rs2_index_reg <= 5'b0;
-		rd_index_reg <= 32'b0;
-		rs1_data_reg <= 32'b0;
-		rs2_data_reg <= 32'b0;
-		imm_out_reg <= 32'b0;
+always@(posedge clk or posedge rst) begin
+	if(rst) begin
+		rs1_index_reg <=  5'b0;
+		rs2_index_reg <=  5'b0;
+		rd_index_reg  <= 32'b0;
+		rs1_data_reg  <= 32'b0;
+		rs2_data_reg  <= 32'b0;
+		imm_out_reg   <= 32'b0;
 		pc_reg <= 32'b0;
 		guess_reg <= 1'b0;
 	/*control signal*/
 		alu_src1_sel_reg <= 1'b0;
 		alu_src2_sel_reg <= 1'b0;
-		jb_src1_sel_reg <= 1'b0;
-		opcode_reg <= 5'b0;
-		func3_reg <= 3'b0;
-		func7_reg <= 2'b0;
+		jb_src1_sel_reg  <= 1'b0;
+		opcode_reg  <= 5'b0;
+		func3_reg   <= 3'b0;
+		func7_reg   <= 2'b0;
 		dm_w_en_reg <= 4'b0;
 		ecall_sig_reg <= 1'b0;
-		wb_sel_reg <= 1'b0;
-		wb_en_reg <= 1'b0;
+		wb_sel_reg  <= 1'b0;
+		wb_en_reg   <= 1'b0;
 	end	
 	else begin
 		rs1_index_reg <= rs1_index;
 		rs2_index_reg <= rs2_index;
-		rd_index_reg <= rd_index;
-		rs1_data_reg <= rs1_data;
-		rs2_data_reg <= rs2_data;
-		imm_out_reg <= imm_out;
+		rd_index_reg  <= rd_index;
+		rs1_data_reg  <= rs1_data;
+		rs2_data_reg  <= rs2_data;
+		imm_out_reg   <= imm_out;
 		pc_reg <= pc;
 		guess_reg <= guess;
 	/*control signal*/

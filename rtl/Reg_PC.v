@@ -2,12 +2,12 @@ module Reg_PC (
 input clk,
 input rst,
 input stall,
-input [31:0] next_pc,
-output reg [31:0] current_pc
+input [15:0] next_pc,
+output reg [15:0] current_pc
 );
-always @(negedge clk or negedge rst) begin
-    if(!rst)
-        current_pc <= 32'd0;
+always @(posedge clk or posedge rst) begin
+    if(rst)
+        current_pc <= 16'd0;
     else if (stall)
         current_pc <= current_pc;
     else

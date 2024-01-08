@@ -1,0 +1,123 @@
+module fulladder(a, b, cin, sum, carry);
+    input a;
+    input b;
+    input cin;
+    output sum;
+    output carry;
+    assign sum = a^b^cin;
+	assign carry = (a&b)|(b&cin)|(a&cin);
+endmodule
+
+module halfadder(a, b, sum, carry);
+    input a;
+    input b;
+    output carry;
+    output sum;
+    assign sum = a^b;
+    assign carry = a&b;
+endmodule
+
+
+module wallace(src1, src2, result);
+	input [7:0] src1, src2;
+    output [15:0] result;
+	wire [7:0] p0, p1, p2, p3, p4, p5, p6, p7;
+	wire [7:0] r1, r2, r3, r4, r5, r6, r7, r8;
+	wire [64:0] cr;
+	wire [53:0] s;
+	
+	
+	assign r1[7:0] = {8{src2[0]}};
+	assign r2[7:0] = {8{src2[1]}};
+	assign r3[7:0] = {8{src2[2]}};
+	assign r4[7:0] = {8{src2[3]}};
+	assign r5[7:0] = {8{src2[4]}};
+	assign r6[7:0] = {8{src2[5]}};
+	assign r7[7:0] = {8{src2[6]}};
+	assign r8[7:0] = {8{src2[7]}};
+	
+	assign p0 = src1 & r1;
+	assign p1 = src1 & r2;
+	assign p2 = src1 & r3;
+	assign p3 = src1 & r4;
+	assign p4 = src1 & r5;
+	assign p5 = src1 & r6;
+	assign p6 = src1 & r7;
+	assign p7 = src1 & r8;
+	
+	assign result[0] = p0[0];
+	halfadder a1(.a(p0[1]), .b(p1[0]), .sum(s[1]), .carry(cr[1]));
+	fulladder a2(.a(p0[2]), .b(p1[1]), .cin(p2[0]), .sum(s[2]), .carry(cr[2]));
+	fulladder a3(.a(p0[3]), .b(p1[2]), .cin(p2[1]), .sum(s[3]), .carry(cr[3]));
+	fulladder a4(.a(p0[4]), .b(p1[3]), .cin(p2[2]), .sum(s[4]), .carry(cr[4]));	
+	halfadder a5(.a(p3[1]), .b(p4[0]), .sum(s[10]), .carry(cr[10]));
+	fulladder a6(.a(p0[5]), .b(p1[4]), .cin(p2[3]), .sum(s[5]), .carry(cr[5]));
+	fulladder a7(.a(p3[2]), .b(p4[1]), .cin(p5[0]), .sum(s[11]), .carry(cr[11]));
+	fulladder a8(.a(p0[6]), .b(p1[5]), .cin(p2[4]), .sum(s[6]), .carry(cr[6]));
+	fulladder a9(.a(p3[3]), .b(p4[2]), .cin(p5[1]), .sum(s[12]), .carry(cr[12]));
+	fulladder a10(.a(p0[7]), .b(p1[6]), .cin(p2[5]), .sum(s[7]), .carry(cr[7]));
+	fulladder a11(.a(p3[4]), .b(p4[3]), .cin(p5[2]), .sum(s[13]), .carry(cr[13]));
+	halfadder a12(.a(p1[7]), .b(p2[6]), .sum(s[8]), .carry(cr[8]));
+	fulladder a13(.a(p3[5]), .b(p4[4]), .cin(p5[3]), .sum(s[14]), .carry(cr[14]));
+	fulladder a14(.a(p2[7]), .b(p3[6]), .cin(p4[5]), .sum(s[9]), .carry(cr[9]));
+	fulladder a15(.a(p3[7]), .b(p4[6]), .cin(p5[5]), .sum(s[15]), .carry(cr[15]));
+	halfadder a16(.a(p4[7]), .b(p5[6]), .sum(s[16]), .carry(cr[16]));
+
+	assign result[1] = s[1];
+	halfadder a17(.a(s[2]), .b(cr[1]), .sum(s[17]), .carry(cr[17]));
+	fulladder a18(.a(s[3]), .b(cr[2]), .cin(p3[0]), .sum(s[18]), .carry(cr[18]));
+	fulladder a19(.a(s[4]), .b(cr[3]), .cin(s[10]), .sum(s[19]), .carry(cr[19]));		
+	fulladder a20(.a(s[5]), .b(cr[4]), .cin(s[11]), .sum(s[20]), .carry(cr[20]));
+	fulladder a21(.a(s[6]), .b(cr[5]), .cin(s[12]), .sum(s[21]), .carry(cr[21]));  	
+	fulladder a22(.a(s[7]), .b(cr[6]), .cin(s[13]), .sum(s[22]), .carry(cr[22]));
+	fulladder a23(.a(s[8]), .b(cr[7]), .cin(s[14]), .sum(s[23]), .carry(cr[23]));
+	fulladder a24(.a(s[9]), .b(cr[8]), .cin(cr[14]), .sum(s[24]),.carry( cr[24]));
+	fulladder a25(.a(cr[9]), .b(p6[4]), .cin(p7[3]), .sum(s[29]), .carry(cr[29]));		
+	fulladder a26(.a(cr[15]), .b(p6[5]), .cin(p7[4]), .sum(s[30]), .carry(cr[30]));
+	fulladder a27(.a(p5[7]), .b(p6[6]), .cin(p7[5]), .sum(s[31]), .carry(cr[31]));
+	halfadder a28(.a(p6[7]), .b(p7[6]), .sum(s[32]), .carry(cr[32]));
+	halfadder a29(.a(p6[0]), .b(cr[11]), .sum( s[25]), .carry(cr[25]));
+	fulladder a30(.a(cr[12]), .b(p6[1]), .cin(p7[0]), .sum(s[26]), .carry(cr[26]));
+	fulladder a31(.a(cr[13]), .b(p6[2]), .cin(p7[1]), .sum(s[27]), .carry(cr[27]));
+	fulladder a32(.a(p5[4]), .b(p6[3]), .cin(p7[2]), .sum(s[28]), .carry(cr[28]));
+
+	assign result[2] = s[17];
+	halfadder a33(.a(s[18]), .b(cr[17]), .sum(s[33]), .carry(cr[33]));
+	halfadder a34(.a(s[19]), .b(cr[18]), .sum(s[34]), .carry(cr[34]));
+	fulladder a35(.a(s[20]), .b(cr[19]), .cin(cr[10]), .sum(s[35]), .carry(cr[35]));
+	fulladder a36(.a(s[21]), .b(cr[20]), .cin(s[25]), .sum(s[36]), .carry(cr[36]));
+	fulladder a37(.a(s[22]), .b(cr[21]), .cin(s[26]), .sum(s[37]), .carry(cr[37]));
+	fulladder a38(.a(s[23]), .b(cr[22]), .cin(s[27]), .sum(s[38]), .carry(cr[38]));
+	fulladder a39(.a(s[24]), .b(cr[23]), .cin(s[28]), .sum(s[39]), .carry(cr[39]));
+	fulladder a40(.a(s[15]), .b(cr[24]), .cin(s[29]), .sum(s[40]), .carry(cr[40]));
+	halfadder a41(.a(s[16]), .b(s[30]), .sum(s[41]), .carry(cr[41]));
+	halfadder a42(.a(cr[16]), .b(s[31]), .sum(s[42]), .carry(cr[42]));
+	
+	assign result[3] = s[33];
+	halfadder a43(.a(s[34]), .b(cr[33]), .sum(s[43]), .carry(cr[43]));
+	halfadder a44(.a(s[35]), .b(cr[34]), .sum(s[44]), .carry(cr[44]));
+	halfadder a45(.a(s[36]), .b(cr[35]), .sum(s[45]), .carry(cr[45]));
+	fulladder a46(.a(s[37]), .b(cr[36]), .cin(cr[25]), .sum(s[46]), .carry(cr[46]));
+	fulladder a47(.a(s[38]), .b(cr[37]), .cin(cr[26]), .sum(s[47]), .carry(cr[47]));	
+	fulladder a48(.a(s[39]), .b(cr[38]), .cin(cr[27]), .sum(s[48]), .carry(cr[48]));
+	fulladder a49(.a(s[40]), .b(cr[39]), .cin(cr[28]), .sum(s[49]), .carry(cr[49]));	
+	fulladder a50(.a(s[41]), .b(cr[40]), .cin(cr[29]), .sum(s[50]), .carry(cr[50]));	
+	fulladder a51(.a(s[42]), .b(cr[30]), .cin(cr[41]), .sum(s[51]), .carry(cr[51]));	
+	fulladder a52(.a(cr[42]), .b(s[32]), .cin(cr[31]), .sum(s[52]), .carry(cr[52]));	
+	halfadder a53(.a(p7[7]), .b(cr[32]), .sum(s[53]), .carry(cr[53]));
+	
+	assign result[4] = s[43];
+	halfadder a54(.a(s[44]), .b(cr[43]), .sum(result[5]), .carry(cr[54]));
+	fulladder a55(.a(s[45]), .b(cr[44]), .cin(cr[54]), .sum(result[6]), .carry(cr[55]));	
+	fulladder a56(.a(s[46]), .b(cr[45]), .cin(cr[55]), .sum(result[7]), .carry(cr[56]));
+	fulladder a57(.a(s[47]), .b(cr[46]), .cin(cr[56]), .sum(result[8]), .carry(cr[57]));
+	fulladder a58(.a(s[48]), .b(cr[47]), .cin(cr[57]), .sum(result[9]), .carry(cr[58]));
+	fulladder a59(.a(s[49]), .b(cr[48]), .cin(cr[58]), .sum(result[10]), .carry(cr[59]));
+	fulladder a60(.a(s[50]), .b(cr[49]), .cin(cr[59]), .sum(result[11]), .carry(cr[60]));
+	fulladder a61(.a(s[51]), .b(cr[50]), .cin(cr[60]), .sum(result[12]), .carry(cr[61]));
+	fulladder a62(.a(s[52]), .b(cr[51]), .cin(cr[61]), .sum(result[13]), .carry(cr[62]));
+	fulladder a63(.a(s[53]), .b(cr[52]), .cin(cr[62]), .sum(result[14]), .carry(cr[63]));
+	assign result[15] = cr[53];
+      
+	 
+endmodule

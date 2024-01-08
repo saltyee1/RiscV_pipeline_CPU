@@ -1,0 +1,30 @@
+ 
+****************************************
+Report : area
+Design : Top
+Version: Q-2019.12
+Date   : Tue Jan  2 20:00:31 2024
+****************************************
+
+Library(s) Used:
+
+    slow (File: /home/ncku_class/vsd2023/vsd202300/Desktop/vsd2023/synopsys/slow.db)
+
+Number of ports:                        16452
+Number of nets:                         33351
+Number of cells:                        18976
+Number of combinational cells:          15411
+Number of sequential cells:              1481
+Number of macros/black boxes:               0
+Number of buf/inv:                       2838
+Number of references:                      26
+
+Combinational area:             277381.844940
+Buf/Inv area:                    19269.835441
+Noncombinational area:          103241.477692
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                380623.322631
+Total area:                 undefined
+1

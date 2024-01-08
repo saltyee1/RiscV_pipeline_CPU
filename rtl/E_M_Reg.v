@@ -37,24 +37,24 @@ module E_M_Reg (
 	output reg[2:0] func3_reg
 );
 
-always@(negedge clk or negedge rst) begin
-	if(!rst) begin
-		alu_out_reg <= 32'b0;
+always@(posedge clk or posedge rst) begin
+	if(rst) begin
+		alu_out_reg  <= 32'b0;
 		rs2_data_reg <= 32'b0;
 		rd_index_reg <= 5'b0;
-		jb_addr_reg <= 32'b0;
+		jb_addr_reg  <= 32'b0;
 		guess_reg <= 1'b0;
 		pc_reg <= 32'b0;
 		/*control signal*/
 		branch_taken_reg <= 1'b0;
 		is_branch_reg <= 1'b0;
-		is_jalr_reg <= 1'b0;
+		is_jalr_reg   <= 1'b0;
 		inst_type_reg <= 2'b0;
-		dm_w_en_reg <= 4'b0;
+		dm_w_en_reg   <= 4'b0;
 	 	ecall_sig_reg <= 1'b0;
 		wb_sel_reg <= 1'b0;
-		wb_en_reg <= 1'b0;
-		func3_reg <= 3'b0;
+		wb_en_reg  <= 1'b0;
+		func3_reg  <= 3'b0;
 	end
 	else begin
 		alu_out_reg <= alu_out;

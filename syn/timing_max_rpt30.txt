@@ -1,0 +1,357 @@
+Information: Updating design information... (UID-85)
+Warning: Design 'Top' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+        -sort_by group
+Design : Top
+Version: Q-2019.12
+Date   : Tue Jan  2 20:00:31 2024
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: slow   Library: slow
+Wire Load Model Mode: top
+
+  Startpoint: d_e_reg/alu_src1_sel_reg_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: e_m_reg/alu_out_reg_reg_31_
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                  15.00      15.00
+  clock network delay (ideal)                             2.00      17.00
+  d_e_reg/alu_src1_sel_reg_reg/CK (DFFRHQX1)              0.00      17.00 r
+  d_e_reg/alu_src1_sel_reg_reg/Q (DFFRHQX1)               0.89      17.89 r
+  d_e_reg/alu_src1_sel_reg (D_E_Reg)                      0.00      17.89 r
+  m2/sel (Mux_0)                                          0.00      17.89 r
+  m2/U3/Y (INVX1)                                         0.87      18.75 f
+  m2/U2/Y (INVX1)                                         0.89      19.65 r
+  m2/U6/Y (AOI22X1)                                       0.19      19.83 f
+  m2/U5/Y (INVX1)                                         0.12      19.95 r
+  m2/result[1] (Mux_0)                                    0.00      19.95 r
+  alu/alu_src1[1] (ALU)                                   0.00      19.95 r
+  alu/U1391/Y (BUFX3)                                     0.31      20.26 r
+  alu/wm/src1[1] (Wallace_multiplier_64)                  0.00      20.26 r
+  alu/wm/U123/Y (INVX1)                                   0.10      20.36 f
+  alu/wm/add_9/A[1] (Wallace_multiplier_64_DW01_inc_2)
+                                                          0.00      20.36 f
+  alu/wm/add_9/U1_1_1/CO (ADDHXL)                         0.21      20.57 f
+  alu/wm/add_9/U1_1_2/CO (ADDHXL)                         0.19      20.75 f
+  alu/wm/add_9/U1_1_3/CO (ADDHXL)                         0.19      20.94 f
+  alu/wm/add_9/U1_1_4/CO (ADDHXL)                         0.19      21.12 f
+  alu/wm/add_9/U1_1_5/CO (ADDHXL)                         0.19      21.31 f
+  alu/wm/add_9/U1_1_6/CO (ADDHXL)                         0.19      21.49 f
+  alu/wm/add_9/U1_1_7/S (ADDHXL)                          0.17      21.66 f
+  alu/wm/add_9/SUM[7] (Wallace_multiplier_64_DW01_inc_2)
+                                                          0.00      21.66 f
+  alu/wm/U116/Y (OAI2BB2X1)                               0.31      21.98 f
+  alu/wm/bc1/src1[7] (wallace_0)                          0.00      21.98 f
+  alu/wm/bc1/U71/Y (INVX1)                                0.32      22.30 r
+  alu/wm/bc1/U21/Y (NOR2X1)                               0.15      22.45 f
+  alu/wm/bc1/a10/a (fulladder_1690)                       0.00      22.45 f
+  alu/wm/bc1/a10/U3/Y (XOR2X1)                            0.31      22.76 r
+  alu/wm/bc1/a10/U4/Y (XOR2X1)                            0.32      23.08 r
+  alu/wm/bc1/a10/sum (fulladder_1690)                     0.00      23.08 r
+  alu/wm/bc1/a22/a (fulladder_1681)                       0.00      23.08 r
+  alu/wm/bc1/a22/U1/Y (XOR2X1)                            0.31      23.39 r
+  alu/wm/bc1/a22/U2/Y (XOR2X1)                            0.32      23.70 r
+  alu/wm/bc1/a22/sum (fulladder_1681)                     0.00      23.70 r
+  alu/wm/bc1/a37/a (fulladder_1670)                       0.00      23.70 r
+  alu/wm/bc1/a37/U1/Y (XOR2X1)                            0.31      24.02 r
+  alu/wm/bc1/a37/U2/Y (XOR2X1)                            0.32      24.33 r
+  alu/wm/bc1/a37/sum (fulladder_1670)                     0.00      24.33 r
+  alu/wm/bc1/a46/a (fulladder_1666)                       0.00      24.33 r
+  alu/wm/bc1/a46/U1/Y (XOR2X1)                            0.31      24.64 r
+  alu/wm/bc1/a46/U2/Y (XOR2X1)                            0.32      24.96 r
+  alu/wm/bc1/a46/sum (fulladder_1666)                     0.00      24.96 r
+  alu/wm/bc1/a56/a (fulladder_1658)                       0.00      24.96 r
+  alu/wm/bc1/a56/U2/Y (XOR2X1)                            0.27      25.23 f
+  alu/wm/bc1/a56/U4/Y (AOI22X1)                           0.20      25.43 r
+  alu/wm/bc1/a56/U3/Y (INVX1)                             0.09      25.52 f
+  alu/wm/bc1/a56/carry (fulladder_1658)                   0.00      25.52 f
+  alu/wm/bc1/a57/cin (fulladder_1657)                     0.00      25.52 f
+  alu/wm/bc1/a57/U4/Y (AOI22X1)                           0.22      25.74 r
+  alu/wm/bc1/a57/U3/Y (INVX1)                             0.09      25.83 f
+  alu/wm/bc1/a57/carry (fulladder_1657)                   0.00      25.83 f
+  alu/wm/bc1/a58/cin (fulladder_1656)                     0.00      25.83 f
+  alu/wm/bc1/a58/U1/Y (XOR2X1)                            0.29      26.13 r
+  alu/wm/bc1/a58/sum (fulladder_1656)                     0.00      26.13 r
+  alu/wm/bc1/result[9] (wallace_0)                        0.00      26.13 r
+  alu/wm/mc1/src1[9] (adder_64_0)                         0.00      26.13 r
+  alu/wm/mc1/f10/a (fulladder_937)                        0.00      26.13 r
+  alu/wm/mc1/f10/U1/Y (XOR2X1)                            0.27      26.39 f
+  alu/wm/mc1/f10/U4/Y (AOI22X1)                           0.20      26.60 r
+  alu/wm/mc1/f10/U3/Y (INVX1)                             0.09      26.69 f
+  alu/wm/mc1/f10/carry (fulladder_937)                    0.00      26.69 f
+  alu/wm/mc1/f11/cin (fulladder_936)                      0.00      26.69 f
+  alu/wm/mc1/f11/U4/Y (AOI22X1)                           0.22      26.91 r
+  alu/wm/mc1/f11/U3/Y (INVX1)                             0.09      27.00 f
+  alu/wm/mc1/f11/carry (fulladder_936)                    0.00      27.00 f
+  alu/wm/mc1/f12/cin (fulladder_935)                      0.00      27.00 f
+  alu/wm/mc1/f12/U4/Y (AOI22X1)                           0.22      27.22 r
+  alu/wm/mc1/f12/U3/Y (INVX1)                             0.09      27.31 f
+  alu/wm/mc1/f12/carry (fulladder_935)                    0.00      27.31 f
+  alu/wm/mc1/f13/cin (fulladder_934)                      0.00      27.31 f
+  alu/wm/mc1/f13/U4/Y (AOI22X1)                           0.22      27.53 r
+  alu/wm/mc1/f13/U3/Y (INVX1)                             0.09      27.62 f
+  alu/wm/mc1/f13/carry (fulladder_934)                    0.00      27.62 f
+  alu/wm/mc1/f14/cin (fulladder_933)                      0.00      27.62 f
+  alu/wm/mc1/f14/U4/Y (AOI22X1)                           0.22      27.84 r
+  alu/wm/mc1/f14/U3/Y (INVX1)                             0.09      27.94 f
+  alu/wm/mc1/f14/carry (fulladder_933)                    0.00      27.94 f
+  alu/wm/mc1/f15/cin (fulladder_932)                      0.00      27.94 f
+  alu/wm/mc1/f15/U4/Y (AOI22X1)                           0.22      28.16 r
+  alu/wm/mc1/f15/U3/Y (INVX1)                             0.09      28.25 f
+  alu/wm/mc1/f15/carry (fulladder_932)                    0.00      28.25 f
+  alu/wm/mc1/f16/cin (fulladder_931)                      0.00      28.25 f
+  alu/wm/mc1/f16/U3/Y (AOI22X1)                           0.22      28.47 r
+  alu/wm/mc1/f16/U2/Y (INVX1)                             0.09      28.56 f
+  alu/wm/mc1/f16/carry (fulladder_931)                    0.00      28.56 f
+  alu/wm/mc1/f21/cin (fulladder_930)                      0.00      28.56 f
+  alu/wm/mc1/f21/U3/Y (AOI22X1)                           0.22      28.78 r
+  alu/wm/mc1/f21/U2/Y (INVX1)                             0.09      28.87 f
+  alu/wm/mc1/f21/carry (fulladder_930)                    0.00      28.87 f
+  alu/wm/mc1/f22/cin (fulladder_929)                      0.00      28.87 f
+  alu/wm/mc1/f22/U3/Y (AOI22X1)                           0.22      29.09 r
+  alu/wm/mc1/f22/U2/Y (INVX1)                             0.09      29.19 f
+  alu/wm/mc1/f22/carry (fulladder_929)                    0.00      29.19 f
+  alu/wm/mc1/f23/cin (fulladder_928)                      0.00      29.19 f
+  alu/wm/mc1/f23/U3/Y (AOI22X1)                           0.22      29.41 r
+  alu/wm/mc1/f23/U2/Y (INVX1)                             0.09      29.50 f
+  alu/wm/mc1/f23/carry (fulladder_928)                    0.00      29.50 f
+  alu/wm/mc1/f24/cin (fulladder_927)                      0.00      29.50 f
+  alu/wm/mc1/f24/U3/Y (AOI22X1)                           0.22      29.72 r
+  alu/wm/mc1/f24/U2/Y (INVX1)                             0.09      29.81 f
+  alu/wm/mc1/f24/carry (fulladder_927)                    0.00      29.81 f
+  alu/wm/mc1/f25/cin (fulladder_926)                      0.00      29.81 f
+  alu/wm/mc1/f25/U3/Y (AOI22X1)                           0.22      30.03 r
+  alu/wm/mc1/f25/U2/Y (INVX1)                             0.09      30.12 f
+  alu/wm/mc1/f25/carry (fulladder_926)                    0.00      30.12 f
+  alu/wm/mc1/f26/cin (fulladder_925)                      0.00      30.12 f
+  alu/wm/mc1/f26/U3/Y (AOI22X1)                           0.22      30.34 r
+  alu/wm/mc1/f26/U2/Y (INVX1)                             0.09      30.44 f
+  alu/wm/mc1/f26/carry (fulladder_925)                    0.00      30.44 f
+  alu/wm/mc1/f27/cin (fulladder_924)                      0.00      30.44 f
+  alu/wm/mc1/f27/U3/Y (AOI22X1)                           0.22      30.66 r
+  alu/wm/mc1/f27/U2/Y (INVX1)                             0.09      30.75 f
+  alu/wm/mc1/f27/carry (fulladder_924)                    0.00      30.75 f
+  alu/wm/mc1/f28/cin (fulladder_923)                      0.00      30.75 f
+  alu/wm/mc1/f28/U1/Y (XOR2X1)                            0.29      31.04 r
+  alu/wm/mc1/f28/sum (fulladder_923)                      0.00      31.04 r
+  alu/wm/mc1/sum[23] (adder_64_0)                         0.00      31.04 r
+  alu/wm/mc9/src1[23] (adder_64_7)                        0.00      31.04 r
+  alu/wm/mc9/f28/a (fulladder_419)                        0.00      31.04 r
+  alu/wm/mc9/f28/U2/Y (XOR2X1)                            0.31      31.35 r
+  alu/wm/mc9/f28/U1/Y (XOR2X1)                            0.32      31.67 r
+  alu/wm/mc9/f28/sum (fulladder_419)                      0.00      31.67 r
+  alu/wm/mc9/sum[23] (adder_64_7)                         0.00      31.67 r
+  alu/wm/mc13/src1[23] (adder_64_3)                       0.00      31.67 r
+  alu/wm/mc13/f28/a (fulladder_167)                       0.00      31.67 r
+  alu/wm/mc13/f28/U2/Y (XOR2X1)                           0.31      31.98 r
+  alu/wm/mc13/f28/U1/Y (XOR2X1)                           0.32      32.30 r
+  alu/wm/mc13/f28/sum (fulladder_167)                     0.00      32.30 r
+  alu/wm/mc13/sum[23] (adder_64_3)                        0.00      32.30 r
+  alu/wm/mc15/src1[23] (adder_64_1)                       0.00      32.30 r
+  alu/wm/mc15/f28/a (fulladder_41)                        0.00      32.30 r
+  alu/wm/mc15/f28/U2/Y (XOR2X1)                           0.27      32.56 f
+  alu/wm/mc15/f28/U4/Y (AOI22X1)                          0.20      32.77 r
+  alu/wm/mc15/f28/U3/Y (INVX1)                            0.09      32.86 f
+  alu/wm/mc15/f28/carry (fulladder_41)                    0.00      32.86 f
+  alu/wm/mc15/f119/cin (fulladder_40)                     0.00      32.86 f
+  alu/wm/mc15/f119/U4/Y (AOI22X1)                         0.22      33.08 r
+  alu/wm/mc15/f119/U3/Y (INVX1)                           0.09      33.17 f
+  alu/wm/mc15/f119/carry (fulladder_40)                   0.00      33.17 f
+  alu/wm/mc15/f29/cin (fulladder_39)                      0.00      33.17 f
+  alu/wm/mc15/f29/U4/Y (AOI22X1)                          0.22      33.39 r
+  alu/wm/mc15/f29/U3/Y (INVX1)                            0.09      33.48 f
+  alu/wm/mc15/f29/carry (fulladder_39)                    0.00      33.48 f
+  alu/wm/mc15/f30/cin (fulladder_38)                      0.00      33.48 f
+  alu/wm/mc15/f30/U4/Y (AOI22X1)                          0.22      33.70 r
+  alu/wm/mc15/f30/U3/Y (INVX1)                            0.09      33.79 f
+  alu/wm/mc15/f30/carry (fulladder_38)                    0.00      33.79 f
+  alu/wm/mc15/f31/cin (fulladder_37)                      0.00      33.79 f
+  alu/wm/mc15/f31/U4/Y (AOI22X1)                          0.22      34.02 r
+  alu/wm/mc15/f31/U3/Y (INVX1)                            0.09      34.11 f
+  alu/wm/mc15/f31/carry (fulladder_37)                    0.00      34.11 f
+  alu/wm/mc15/f32/cin (fulladder_36)                      0.00      34.11 f
+  alu/wm/mc15/f32/U4/Y (AOI22X1)                          0.22      34.33 r
+  alu/wm/mc15/f32/U3/Y (INVX1)                            0.09      34.42 f
+  alu/wm/mc15/f32/carry (fulladder_36)                    0.00      34.42 f
+  alu/wm/mc15/f33/cin (fulladder_35)                      0.00      34.42 f
+  alu/wm/mc15/f33/U4/Y (AOI22X1)                          0.22      34.64 r
+  alu/wm/mc15/f33/U3/Y (INVX1)                            0.09      34.73 f
+  alu/wm/mc15/f33/carry (fulladder_35)                    0.00      34.73 f
+  alu/wm/mc15/f34/cin (fulladder_34)                      0.00      34.73 f
+  alu/wm/mc15/f34/U4/Y (AOI22X1)                          0.22      34.95 r
+  alu/wm/mc15/f34/U3/Y (INVX1)                            0.09      35.04 f
+  alu/wm/mc15/f34/carry (fulladder_34)                    0.00      35.04 f
+  alu/wm/mc15/f35/cin (fulladder_33)                      0.00      35.04 f
+  alu/wm/mc15/f35/U4/Y (AOI22X1)                          0.22      35.27 r
+  alu/wm/mc15/f35/U3/Y (INVX1)                            0.09      35.36 f
+  alu/wm/mc15/f35/carry (fulladder_33)                    0.00      35.36 f
+  alu/wm/mc15/f36/cin (fulladder_32)                      0.00      35.36 f
+  alu/wm/mc15/f36/U4/Y (AOI22X1)                          0.22      35.58 r
+  alu/wm/mc15/f36/U3/Y (INVX1)                            0.09      35.67 f
+  alu/wm/mc15/f36/carry (fulladder_32)                    0.00      35.67 f
+  alu/wm/mc15/f37/cin (fulladder_31)                      0.00      35.67 f
+  alu/wm/mc15/f37/U4/Y (AOI22X1)                          0.22      35.89 r
+  alu/wm/mc15/f37/U3/Y (INVX1)                            0.09      35.98 f
+  alu/wm/mc15/f37/carry (fulladder_31)                    0.00      35.98 f
+  alu/wm/mc15/f38/cin (fulladder_30)                      0.00      35.98 f
+  alu/wm/mc15/f38/U4/Y (AOI22X1)                          0.22      36.20 r
+  alu/wm/mc15/f38/U3/Y (INVX1)                            0.09      36.29 f
+  alu/wm/mc15/f38/carry (fulladder_30)                    0.00      36.29 f
+  alu/wm/mc15/f55/cin (fulladder_29)                      0.00      36.29 f
+  alu/wm/mc15/f55/U4/Y (AOI22X1)                          0.22      36.52 r
+  alu/wm/mc15/f55/U3/Y (INVX1)                            0.09      36.61 f
+  alu/wm/mc15/f55/carry (fulladder_29)                    0.00      36.61 f
+  alu/wm/mc15/f56/cin (fulladder_28)                      0.00      36.61 f
+  alu/wm/mc15/f56/U4/Y (AOI22X1)                          0.22      36.83 r
+  alu/wm/mc15/f56/U3/Y (INVX1)                            0.09      36.92 f
+  alu/wm/mc15/f56/carry (fulladder_28)                    0.00      36.92 f
+  alu/wm/mc15/f455/cin (fulladder_27)                     0.00      36.92 f
+  alu/wm/mc15/f455/U4/Y (AOI22X1)                         0.22      37.14 r
+  alu/wm/mc15/f455/U3/Y (INVX1)                           0.09      37.23 f
+  alu/wm/mc15/f455/carry (fulladder_27)                   0.00      37.23 f
+  alu/wm/mc15/f56434/cin (fulladder_26)                   0.00      37.23 f
+  alu/wm/mc15/f56434/U4/Y (AOI22X1)                       0.22      37.45 r
+  alu/wm/mc15/f56434/U3/Y (INVX1)                         0.09      37.54 f
+  alu/wm/mc15/f56434/carry (fulladder_26)                 0.00      37.54 f
+  alu/wm/mc15/f45641/cin (fulladder_25)                   0.00      37.54 f
+  alu/wm/mc15/f45641/U4/Y (AOI22X1)                       0.22      37.77 r
+  alu/wm/mc15/f45641/U3/Y (INVX1)                         0.09      37.86 f
+  alu/wm/mc15/f45641/carry (fulladder_25)                 0.00      37.86 f
+  alu/wm/mc15/f145/cin (fulladder_24)                     0.00      37.86 f
+  alu/wm/mc15/f145/U4/Y (AOI22X1)                         0.22      38.08 r
+  alu/wm/mc15/f145/U3/Y (INVX1)                           0.09      38.17 f
+  alu/wm/mc15/f145/carry (fulladder_24)                   0.00      38.17 f
+  alu/wm/mc15/f472/cin (fulladder_23)                     0.00      38.17 f
+  alu/wm/mc15/f472/U4/Y (AOI22X1)                         0.22      38.39 r
+  alu/wm/mc15/f472/U3/Y (INVX1)                           0.09      38.48 f
+  alu/wm/mc15/f472/carry (fulladder_23)                   0.00      38.48 f
+  alu/wm/mc15/f42/cin (fulladder_22)                      0.00      38.48 f
+  alu/wm/mc15/f42/U4/Y (AOI22X1)                          0.22      38.70 r
+  alu/wm/mc15/f42/U3/Y (INVX1)                            0.09      38.79 f
+  alu/wm/mc15/f42/carry (fulladder_22)                    0.00      38.79 f
+  alu/wm/mc15/f45/cin (fulladder_21)                      0.00      38.79 f
+  alu/wm/mc15/f45/U4/Y (AOI22X1)                          0.22      39.01 r
+  alu/wm/mc15/f45/U3/Y (INVX1)                            0.09      39.11 f
+  alu/wm/mc15/f45/carry (fulladder_21)                    0.00      39.11 f
+  alu/wm/mc15/f542/cin (fulladder_20)                     0.00      39.11 f
+  alu/wm/mc15/f542/U4/Y (AOI22X1)                         0.22      39.33 r
+  alu/wm/mc15/f542/U3/Y (INVX1)                           0.09      39.42 f
+  alu/wm/mc15/f542/carry (fulladder_20)                   0.00      39.42 f
+  alu/wm/mc15/f53/cin (fulladder_19)                      0.00      39.42 f
+  alu/wm/mc15/f53/U4/Y (AOI22X1)                          0.22      39.64 r
+  alu/wm/mc15/f53/U3/Y (INVX1)                            0.09      39.73 f
+  alu/wm/mc15/f53/carry (fulladder_19)                    0.00      39.73 f
+  alu/wm/mc15/f94/cin (fulladder_18)                      0.00      39.73 f
+  alu/wm/mc15/f94/U4/Y (AOI22X1)                          0.22      39.95 r
+  alu/wm/mc15/f94/U3/Y (INVX1)                            0.09      40.04 f
+  alu/wm/mc15/f94/carry (fulladder_18)                    0.00      40.04 f
+  alu/wm/mc15/f244/cin (fulladder_17)                     0.00      40.04 f
+  alu/wm/mc15/f244/U4/Y (AOI22X1)                         0.22      40.26 r
+  alu/wm/mc15/f244/U3/Y (INVX1)                           0.09      40.36 f
+  alu/wm/mc15/f244/carry (fulladder_17)                   0.00      40.36 f
+  alu/wm/mc15/f412/cin (fulladder_16)                     0.00      40.36 f
+  alu/wm/mc15/f412/U4/Y (AOI22X1)                         0.22      40.58 r
+  alu/wm/mc15/f412/U3/Y (INVX1)                           0.09      40.67 f
+  alu/wm/mc15/f412/carry (fulladder_16)                   0.00      40.67 f
+  alu/wm/mc15/f152/cin (fulladder_15)                     0.00      40.67 f
+  alu/wm/mc15/f152/U4/Y (AOI22X1)                         0.22      40.89 r
+  alu/wm/mc15/f152/U3/Y (INVX1)                           0.09      40.98 f
+  alu/wm/mc15/f152/carry (fulladder_15)                   0.00      40.98 f
+  alu/wm/mc15/f2114/cin (fulladder_14)                    0.00      40.98 f
+  alu/wm/mc15/f2114/U4/Y (AOI22X1)                        0.22      41.20 r
+  alu/wm/mc15/f2114/U3/Y (INVX1)                          0.09      41.29 f
+  alu/wm/mc15/f2114/carry (fulladder_14)                  0.00      41.29 f
+  alu/wm/mc15/f174/cin (fulladder_13)                     0.00      41.29 f
+  alu/wm/mc15/f174/U3/Y (AOI22X1)                         0.22      41.51 r
+  alu/wm/mc15/f174/U2/Y (INVX1)                           0.09      41.61 f
+  alu/wm/mc15/f174/carry (fulladder_13)                   0.00      41.61 f
+  alu/wm/mc15/f172/cin (fulladder_12)                     0.00      41.61 f
+  alu/wm/mc15/f172/U3/Y (AOI22X1)                         0.22      41.83 r
+  alu/wm/mc15/f172/U2/Y (INVX1)                           0.09      41.92 f
+  alu/wm/mc15/f172/carry (fulladder_12)                   0.00      41.92 f
+  alu/wm/mc15/f54/cin (fulladder_11)                      0.00      41.92 f
+  alu/wm/mc15/f54/U3/Y (AOI22X1)                          0.22      42.14 r
+  alu/wm/mc15/f54/U2/Y (INVX1)                            0.09      42.23 f
+  alu/wm/mc15/f54/carry (fulladder_11)                    0.00      42.23 f
+  alu/wm/mc15/f564/cin (fulladder_10)                     0.00      42.23 f
+  alu/wm/mc15/f564/U3/Y (AOI22X1)                         0.22      42.45 r
+  alu/wm/mc15/f564/U2/Y (INVX1)                           0.09      42.54 f
+  alu/wm/mc15/f564/carry (fulladder_10)                   0.00      42.54 f
+  alu/wm/mc15/f456/cin (fulladder_9)                      0.00      42.54 f
+  alu/wm/mc15/f456/U3/Y (AOI22X1)                         0.22      42.76 r
+  alu/wm/mc15/f456/U2/Y (INVX1)                           0.09      42.85 f
+  alu/wm/mc15/f456/carry (fulladder_9)                    0.00      42.85 f
+  alu/wm/mc15/f345/cin (fulladder_8)                      0.00      42.85 f
+  alu/wm/mc15/f345/U3/Y (AOI22X1)                         0.22      43.08 r
+  alu/wm/mc15/f345/U2/Y (INVX1)                           0.09      43.17 f
+  alu/wm/mc15/f345/carry (fulladder_8)                    0.00      43.17 f
+  alu/wm/mc15/f435/cin (fulladder_7)                      0.00      43.17 f
+  alu/wm/mc15/f435/U3/Y (AOI22X1)                         0.22      43.39 r
+  alu/wm/mc15/f435/U2/Y (INVX1)                           0.09      43.48 f
+  alu/wm/mc15/f435/carry (fulladder_7)                    0.00      43.48 f
+  alu/wm/mc15/f451/cin (fulladder_6)                      0.00      43.48 f
+  alu/wm/mc15/f451/U3/Y (AOI22X1)                         0.22      43.70 r
+  alu/wm/mc15/f451/U2/Y (INVX1)                           0.09      43.79 f
+  alu/wm/mc15/f451/carry (fulladder_6)                    0.00      43.79 f
+  alu/wm/mc15/fd4/cin (fulladder_5)                       0.00      43.79 f
+  alu/wm/mc15/fd4/U3/Y (AOI22X1)                          0.22      44.01 r
+  alu/wm/mc15/fd4/U2/Y (INVX1)                            0.09      44.10 f
+  alu/wm/mc15/fd4/carry (fulladder_5)                     0.00      44.10 f
+  alu/wm/mc15/fdsf/cin (fulladder_4)                      0.00      44.10 f
+  alu/wm/mc15/fdsf/U3/Y (AOI22X1)                         0.22      44.33 r
+  alu/wm/mc15/fdsf/U2/Y (INVX1)                           0.09      44.42 f
+  alu/wm/mc15/fdsf/carry (fulladder_4)                    0.00      44.42 f
+  alu/wm/mc15/fd412/cin (fulladder_3)                     0.00      44.42 f
+  alu/wm/mc15/fd412/U3/Y (AOI22X1)                        0.22      44.64 r
+  alu/wm/mc15/fd412/U2/Y (INVX1)                          0.09      44.73 f
+  alu/wm/mc15/fd412/carry (fulladder_3)                   0.00      44.73 f
+  alu/wm/mc15/fds/cin (fulladder_2)                       0.00      44.73 f
+  alu/wm/mc15/fds/U3/Y (AOI22X1)                          0.22      44.95 r
+  alu/wm/mc15/fds/U2/Y (INVX1)                            0.09      45.04 f
+  alu/wm/mc15/fds/carry (fulladder_2)                     0.00      45.04 f
+  alu/wm/mc15/fdf/cin (fulladder_1)                       0.00      45.04 f
+  alu/wm/mc15/fdf/U1/Y (XOR2X1)                           0.21      45.25 f
+  alu/wm/mc15/fdf/sum (fulladder_1)                       0.00      45.25 f
+  alu/wm/mc15/sum[63] (adder_64_1)                        0.00      45.25 f
+  alu/wm/U5/Y (INVX1)                                     0.12      45.37 r
+  alu/wm/add_11/A[63] (Wallace_multiplier_64_DW01_inc_0)
+                                                          0.00      45.37 r
+  alu/wm/add_11/U1/Y (XOR2X1)                             0.26      45.63 f
+  alu/wm/add_11/SUM[63] (Wallace_multiplier_64_DW01_inc_0)
+                                                          0.00      45.63 f
+  alu/wm/U107/Y (OAI2BB2X1)                               0.24      45.87 f
+  alu/wm/result[63] (Wallace_multiplier_64)               0.00      45.87 f
+  alu/U506/Y (AOI22X1)                                    0.25      46.12 r
+  alu/U812/Y (NAND4X1)                                    0.14      46.26 f
+  alu/U811/Y (AOI22X1)                                    0.25      46.51 r
+  alu/U821/Y (NAND4X1)                                    0.10      46.61 f
+  alu/alu_out[31] (ALU)                                   0.00      46.61 f
+  e_m_reg/alu_out[31] (E_M_Reg)                           0.00      46.61 f
+  e_m_reg/alu_out_reg_reg_31_/D (DFFRHQX1)                0.00      46.61 f
+  data arrival time                                                 46.61
+
+  clock clk (rise edge)                                  45.00      45.00
+  clock network delay (ideal)                             2.00      47.00
+  e_m_reg/alu_out_reg_reg_31_/CK (DFFRHQX1)               0.00      47.00 r
+  library setup time                                     -0.37      46.63
+  data required time                                                46.63
+  --------------------------------------------------------------------------
+  data required time                                                46.63
+  data arrival time                                                -46.61
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.02
+
+
+1

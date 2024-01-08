@@ -7,10 +7,10 @@ module JB_Unit(
 );
 always @(*) begin
     case(opcode)
-        `JAL   : JB_out = JB_src1 + JB_src2;   //pc + imm
+        `JAL    : JB_out = JB_src1 + JB_src2;   //pc + imm
         `JALR   : JB_out = ((JB_src1 + JB_src2) & (~32'd1));   //(rs1+imm) last bit = 0
         `BRANCH : JB_out = JB_src1 + JB_src2;  //pc + imm
-        default JB_out = 32'b0;
+        default : JB_out = 32'b0;
     endcase
 end
 endmodule

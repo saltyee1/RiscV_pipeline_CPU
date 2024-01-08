@@ -23,7 +23,7 @@
 `include "../rtl/Wallace_multiplier_64.v"
 `include "../rtl/Wall.v"
 module Top (
-    input clk,
+    input clk, nclk,
     input rst,
 	/*for im*/
 	input [31:0] inst,
@@ -51,7 +51,8 @@ wire [4:0]  rd_index;
 wire [31:0] JB_src1, JB_out;
 wire [31:0] ld_data_f;
 
-wire [31:0] current_pc, next_pc;
+wire [15:0] current_pc;
+wire [15:0] next_pc;
 
 wire [3:0]  ctrl_im_w_en, ctrl_dm_w_en;
 wire        wb_en;
@@ -72,7 +73,7 @@ wire [31:0] rs2_data_f;
 wire is_branch;
 wire is_jalr;
 wire hit_e_m;
-wire [31:0] branch_taken_choice_out;
+//wire [31:0] branch_taken_choice_out;
 wire [1:0] inst_type;
 wire current_guess;
 
@@ -100,7 +101,7 @@ wire [1:0] inst_type_reg_e_m;
 wire [31:0]dm_read_data_reg_m_w;
 
 wire [31:0] pc_reg_f_d, pc_reg_d_e, pc_reg_e_m;
-wire [4:0] rd_index_reg_d_e, rd_index_reg_e_m, rd_index_reg_m_w;
+wire [ 4:0] rd_index_reg_d_e, rd_index_reg_e_m, rd_index_reg_m_w;
 wire ecall_sig_reg_d_e, ecall_sig_reg_e_m, ecall_sig_reg_m_w;
 wire [31:0] rs2_data_reg_d_e, rs2_data_reg_e_m;
 wire [31:0] alu_out_reg_e_m, alu_out_reg_m_w;
@@ -119,8 +120,8 @@ assign dm_w_en = dm_w_en_reg_e_m;
 nextpc_unit n_pcu(
     .inst (inst), 
     .current_pc (current_pc),
-    .em_pc (pc_reg_e_m),
-    .em_baddr (jb_addr_reg_e_m),
+    .em_pc (pc_reg_e_m[15:0]),
+    .em_baddr (jb_addr_reg_e_m[15:0]),
     .c_guess (current_guess), // Branch_Predictor port  .Guess_result()
     .em_guess (guess_reg_e_m),
     .hit (hit_e_m),
@@ -193,6 +194,7 @@ Decoder decoder(
 
 RegFile regfile(
     .clk (clk),
+    .nclk (nclk),
     .rst (rst),
     .ecall_sig (ecall_sig_reg_m_w),
     .wb_en (wb_en_reg_m_w),
@@ -214,7 +216,7 @@ Imm_Ext imm_ext(
 Controller contr(
     .opcode (opcode),
     .func3 (func3),
-    .func7 (func7),
+    //.func7 (func7),
     //.alu_branch (alu_out[0]),
     //.next_pc_sel (next_pc_sel),
     .im_w_en (im_w_en),

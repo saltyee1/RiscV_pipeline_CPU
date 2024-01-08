@@ -9,10 +9,10 @@ module Mux4_1(
 
 always @(*) begin
     case (sel)
-        2'h0 : result = in0;
         2'h1 : result = in1;
         2'h2 : result = in2;
-        2'h3 : result = in3;
+        default : result = in0;
+        //2'h3 : result = in3;
     endcase
 end
 

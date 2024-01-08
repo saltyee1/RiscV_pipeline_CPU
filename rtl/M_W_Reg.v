@@ -18,8 +18,8 @@ module M_W_Reg (
 	output reg wb_en_reg,
 	output reg [2:0]func3_reg
 );
-always @(negedge clk or negedge rst) begin
-	if(!rst) begin
+always @(posedge clk or posedge rst) begin
+	if(rst) begin
 		dm_out_reg <= 32'b0;
 		alu_out_reg <= 32'b0;
 		rd_index_reg <= 5'b0;
